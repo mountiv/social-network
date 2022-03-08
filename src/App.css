@@ -9,6 +9,8 @@
     grid-auto-columns: 2fr 10fr;
     grid-gap: 10px;
 }
-
-
+.content {
+    grid-area: c;
+    background-color: blanchedalmond;
+}
 
