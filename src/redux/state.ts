@@ -1,3 +1,6 @@
+import {AddPostAC, ChangeNewTextAC, ProfilePageReducer} from "./ProfilePageReducer";
+import {AddDialogMessageAC, ChangeDialogMessageTextAC, DialogsPageReducer} from "./DialogsPageReducer";
+
 export type postDataType = {
     id: number
     message: string
@@ -17,6 +20,7 @@ export type messageDataType = {
 export type  dialogsPageType = {
     dialogsData: Array<dialogsDataType>
     messageData: Array<messageDataType>
+    newMessageText: string
 }
 
 export type profilePageType = {
@@ -40,17 +44,8 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-export type ActionsType = AddPostActionType | ChangeNewTextActionType;
-
-type AddPostActionType = {
-    type: "ADD-POST"
-    postText: string
-}
-
-type ChangeNewTextActionType = {
-    type: "CHANGE-NEW-TEXT"
-    newText: string
-}
+export type ActionsType = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangeNewTextAC> |
+    ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof ChangeDialogMessageTextAC>;
 
 export const store: StoreType = {
     _state: {
@@ -78,7 +73,9 @@ export const store: StoreType = {
                 {id: 3, message: 'Cool'},
                 {id: 4, message: 'I like it'},
                 {id: 5, message: 'I like it-kamasutra'}
-            ]
+            ],
+
+            newMessageText: ''
         },
         sideBar: {},
     },
@@ -92,20 +89,14 @@ export const store: StoreType = {
         return this._state;
     },
     dispatch(action) {
-        if (action.type === "ADD-POST") {
-            let newPost = {
-                id: new Date().getTime(),
-                message: action.postText,
-                likeCounts: 0
-            };
-            this._state.profilePage.postsData.push(newPost)
-            this._onChange()
-        } else if (action.type === "CHANGE-NEW-TEXT") {
-            this._state.profilePage.newPostText = action.newText
-            this._onChange()
-        }
+        this._state.profilePage = ProfilePageReducer(this._state.profilePage, action)
+        this._state.dialogsPage = DialogsPageReducer(this._state.dialogsPage, action)
+        this._onChange();
     }
 }
+
+
+
 
 
 
