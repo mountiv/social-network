@@ -26,17 +26,19 @@ function App(props: PropsType) {
                         <Route path='/profile' element={<Profile profilePage={state.profilePage}
                                                                  dispatch={props.store.dispatch.bind(props.store)}
                                                                  message={state.profilePage.newPostText}/>}/>
-                            <Route path='/dialogs'
-                            element={<Dialogs dialogsPage={state.dialogsPage}/>}/>
-                            <Route path='/news' element={<News/>}/>
-                            <Route path='/music' element={<Music/>}/>
-                            <Route path='/settings' element={<Settings/>}/>
-                            </Routes>
+                        <Route path='/dialogs'
+                               element={<Dialogs dialogsPage={state.dialogsPage}
+                                                 dispatch={props.store.dispatch.bind(props.store)}
+                                                 message={state.dialogsPage.newMessageText}/>}/>
+                        <Route path='/news' element={<News/>}/>
+                        <Route path='/music' element={<Music/>}/>
+                        <Route path='/settings' element={<Settings/>}/>
+                    </Routes>
 
-                            </div>
-                            </div>
-                            </BrowserRouter>
-                            );
-                        }
+                </div>
+            </div>
+        </BrowserRouter>
+    );
+}
 
-                               export default App;
+export default App;
