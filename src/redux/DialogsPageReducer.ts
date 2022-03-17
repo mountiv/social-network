@@ -10,7 +10,28 @@ export const ChangeDialogMessageTextAC = (newText: string) => ({
     newText: newText
 } as const)
 
-export const DialogsPageReducer = (state: dialogsPageType, action: ActionsType) => {
+const initialState: dialogsPageType = {
+    dialogsData: [
+        {id: 1, name: 'Viktor'},
+        {id: 2, name: 'Vlad'},
+        {id: 3, name: 'Kristina'},
+        {id: 4, name: 'Lera'},
+        {id: 5, name: 'Sergey'},
+        {id: 6, name: 'Oliver'},
+    ],
+
+    messageData: [
+        {id: 1, message: 'Hey, baby'},
+        {id: 2, message: 'I miss you'},
+        {id: 3, message: 'Cool'},
+        {id: 4, message: 'I like it'},
+        {id: 5, message: 'I like it-kamasutra'}
+    ],
+
+    newMessageText: ''
+}
+
+export const DialogsPageReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
         case "CHANGE-DIALOG-MESSAGE":
             state.newMessageText = action.newText

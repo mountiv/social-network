@@ -1,25 +1,23 @@
 import React, {ChangeEvent} from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ActionsType, postDataType} from "../../../redux/state";
-import {AddPostAC, ChangeNewTextAC} from "../../../redux/ProfilePageReducer";
+import {postDataType} from "../../../redux/state";
 
 type MyPostsType = {
     postsData: Array<postDataType>
     message: string
-    dispatch: (action: ActionsType) => void
-
+    onPostChange: (value: string) => void
+    addPostButton: (text: string) => void
 }
 
 export const MyPosts = (props: MyPostsType) => {
     const PostValue = React.createRef<HTMLTextAreaElement>()
     const addPostsCallback = () => {
-        PostValue.current && props.dispatch(AddPostAC(PostValue.current.value))
-        props.dispatch(ChangeNewTextAC(''))
+        PostValue.current && props.addPostButton(PostValue.current.value)
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(ChangeNewTextAC(e.currentTarget.value))
+        props.onPostChange(e.currentTarget.value)
     }
 
     let postsElement = props.postsData
