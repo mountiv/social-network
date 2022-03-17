@@ -1,5 +1,6 @@
 import {AddPostAC, ChangeNewTextAC, ProfilePageReducer} from "./ProfilePageReducer";
 import {AddDialogMessageAC, ChangeDialogMessageTextAC, DialogsPageReducer} from "./DialogsPageReducer";
+import {sideBarType} from "./SideBarPageReducer";
 
 export type postDataType = {
     id: number
@@ -27,8 +28,6 @@ export type profilePageType = {
     postsData: Array<postDataType>
     newPostText: string
 }
-
-type sideBarType = {}
 
 export type RootStateType = {
     profilePage: profilePageType
