@@ -31,15 +31,15 @@ const initialState: dialogsPageType = {
     newMessageText: ''
 }
 
-export const DialogsPageReducer = (state = initialState, action: ActionsType) => {
+export const DialogsPageReducer = (state = initialState, action: ActionsType): dialogsPageType => {
     switch (action.type) {
         case "CHANGE-DIALOG-MESSAGE":
-            state.newMessageText = action.newText
-            return state;
+            // state.newMessageText = action.newText
+            return {...state, newMessageText: action.newText};
         case "ADD-DIALOG-MESSAGE":
             let newMessageData = {id: 6, message: action.newMessage};
-            state.messageData.push(newMessageData)
-            return state;
+            // state.messageData.push(newMessageData)
+            return {...state, messageData: [...state.messageData, newMessageData]};
         default:
             return state
     }

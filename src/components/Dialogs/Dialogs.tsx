@@ -3,8 +3,9 @@ import {Message} from "./Message/Message";
 import {DialogItem} from "./DialogItem/DialogItem";
 
 import React, {ChangeEvent} from "react";
+import {DialogsType} from "./DialogsContainer";
 
-type DialogsType = {
+/*type DialogsType = {
     dialogsData: Array<{
         id: number
         name: string
@@ -16,7 +17,7 @@ type DialogsType = {
     message: string
     onChangeMessage: (value: string) => void
     addMessage: (value: string) => void
-}
+}*/
 
 export const Dialogs = (props: DialogsType) => {
     const MessageValue = React.createRef<HTMLTextAreaElement>()

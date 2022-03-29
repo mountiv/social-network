@@ -11,6 +11,9 @@ export const NavBar = () => {
             <div className={`${s.item} ${s.active}`}>
                 <Link to="/dialogs">Messages</Link>
             </div>
+            <div className={`${s.item} ${s.active}`}>
+                <Link to="/users">Users</Link>
+            </div>
             <div className={s.item}>
                 <Link to="/news">News</Link>
             </div>

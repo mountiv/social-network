@@ -1,31 +1,28 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import {AddPostAC, ChangeNewTextAC} from "../../../redux/ProfilePageReducer";
 import {MyPosts} from "./MyPosts";
-import {StoreType} from "../../../redux/reduxStore";
+import {DispatchType} from "../../../redux/reduxStore";
+import {RootStateType} from "../../../redux/state";
+import {connect} from "react-redux";
 
-type MyPostsContainerType = {
-    store: StoreType
+
+const mapStateToProps = (state: RootStateType) => {
+    return {
+        postsData: state.profilePage.postsData,
+        message: state.profilePage.newPostText
+    }
 }
 
-export const MyPostsContainer = (props: MyPostsContainerType) => {
-    const postsData = props.store.getState().profilePage.postsData
-    const message = props.store.getState().profilePage.newPostText
-    const dispatch = props.store.dispatch.bind(props.store)
-
-
-    const addPostsCallback = (text: string) => {
-        dispatch(AddPostAC(text))
-        dispatch(ChangeNewTextAC(''))
+const mapDispatchToProps = (dispatch: DispatchType) => {
+    return {
+        addPostButton: (text: string) => {
+            dispatch(AddPostAC(text))
+            dispatch(ChangeNewTextAC(''))
+        },
+        onPostChange: (text: string) => {
+            dispatch(ChangeNewTextAC(text))
+        }
     }
-
-    const onPostChange = (text: string) => {
-        dispatch(ChangeNewTextAC(text))
-    }
-
-    return (
-        <div>
-            <MyPosts postsData={postsData} message={message} addPostButton={addPostsCallback}
-                     onPostChange={onPostChange}/>
-        </div>
-    )
 }
+
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)

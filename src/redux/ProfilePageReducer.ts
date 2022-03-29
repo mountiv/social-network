@@ -1,16 +1,19 @@
 import {ActionsType, profilePageType} from "./state";
 
+const ADD_POST = "ADD-POST"
+const CHANGE_NEW_TEXT = "CHANGE-NEW-TEXT"
+
 export const AddPostAC = (postText: string) => ({
-    type: "ADD-POST",
+    type: ADD_POST,
     postText: postText
 } as const)
 
 export const ChangeNewTextAC = (newText: string) => ({
-    type: "CHANGE-NEW-TEXT",
+    type: CHANGE_NEW_TEXT,
     newText: newText
 } as const)
 
-let initialState: profilePageType = {
+const initialState: profilePageType = {
     postsData: [
         {id: 1, message: 'Hey, I like you', likeCounts: 13},
         {id: 2, message: 'I like it-kamasutra', likeCounts: 139}
@@ -18,19 +21,19 @@ let initialState: profilePageType = {
     newPostText: ''
 }
 
-export const ProfilePageReducer = (state = initialState, action: ActionsType) => {
+export const ProfilePageReducer = (state = initialState, action: ActionsType):profilePageType => {
     switch (action.type) {
-        case "ADD-POST":
+        case ADD_POST:
             let newPost = {
                 id: new Date().getTime(),
                 message: action.postText,
                 likeCounts: 0
             };
-            state.postsData.push(newPost)
-            return state;
-        case "CHANGE-NEW-TEXT":
-            state.newPostText = action.newText
-            return state;
+            // state.postsData.push(newPost)
+            return {...state, postsData: [...state.postsData, newPost] }
+        case CHANGE_NEW_TEXT:
+            // state.newPostText = action.newText
+            return {...state, newPostText: action.newText};
         default:
             return state
     }
