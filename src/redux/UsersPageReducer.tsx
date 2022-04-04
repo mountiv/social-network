@@ -2,18 +2,19 @@ import {ActionsType} from "./reduxStore";
 
 export type UsersType = {
     id: number
-    photoUrl: string
+    photos: { small: string | null, large: string | null }
     followed: boolean
-    fullName: string
+    name: string
     status: string
-    location: { country: string, city: string }
+    uniqueUrlName?: string | null
+    // location: { country: string, city: string }
 }
-export type usersPageType = {
+export type UsersState = {
     users: Array<UsersType>
 }
 
-const initialState: usersPageType = {
-    users: []
+const initialState: UsersState = {
+    users: [],
 }
 
 const FOLLOW = "FOLLOW"
@@ -24,7 +25,7 @@ export const FollowAC = (userId: number) => ({type: FOLLOW, userId} as const)
 export const UnfollowAC = (userId: number) => ({type: UNFOLLOW, userId} as const)
 export const SetUsersAC = (users: UsersType[]) => ({type: SET_USERS, users} as const)
 
-export const UsersPageReducer = (state: usersPageType = initialState, action: ActionsType): usersPageType => {
+export const UsersPageReducer = (state: UsersState = initialState, action: ActionsType): UsersState => {
     switch (action.type) {
         case FOLLOW:
             return {
