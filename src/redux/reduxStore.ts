@@ -2,11 +2,20 @@ import {combineReducers, createStore} from "redux";
 import {AddDialogMessageAC, ChangeDialogMessageTextAC, DialogsPageReducer} from "./DialogsPageReducer";
 import {AddPostAC, ChangeNewTextAC, ProfilePageReducer} from "./ProfilePageReducer";
 import {SideBarReducer} from "./SideBarPageReducer";
-import {FollowAC, SetUsersAC, UnfollowAC, UsersPageReducer} from "./UsersPageReducer";
+import {
+    follow,
+    setCurrentPage,
+    setTotalUsersCount,
+    setUsers, toggleIsFetching,
+    unfollow,
+    UsersPageReducer
+} from "./UsersPageReducer";
 
 export type ActionsType = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangeNewTextAC> |
     ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof ChangeDialogMessageTextAC> |
-    ReturnType<typeof FollowAC> | ReturnType<typeof UnfollowAC> | ReturnType<typeof SetUsersAC>;
+    ReturnType<typeof follow> | ReturnType<typeof unfollow> | ReturnType<typeof setUsers> |
+    ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> |
+    ReturnType<typeof toggleIsFetching>;
 
 
 let rootReducer = combineReducers({
