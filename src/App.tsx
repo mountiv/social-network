@@ -9,12 +9,9 @@ import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
+import {ProfileC} from "./components/Profile/ProfileContainer";
 
-type PropsType = {
-
-}
-
-function App(props: PropsType) {
+function App () {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -22,7 +19,7 @@ function App(props: PropsType) {
                 <NavBar/>
                 <div className='app-wrapper content'>
                     <Routes>
-                        <Route path='/profile' element={<Profile/>}/>
+                        <Route path='/profile/:userId' element={<ProfileC/>}/>
                         <Route path='/dialogs' element={<DialogsContainer/>}/>
                         <Route path='/users' element={<UsersContainer/>}/>
                         <Route path='/news' element={<News/>}/>

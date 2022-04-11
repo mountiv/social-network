@@ -2,6 +2,7 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/userPhoto.png";
 import React from "react";
 import {UsersType} from "../../redux/UsersPageReducer";
+import {Link} from "react-router-dom";
 
 type UsersProps = {
     totalUsersCount: number
@@ -30,8 +31,12 @@ export const Users = (props: UsersProps) => {
         {props.users.map((u =>
             <div key={u.id}>
                 <span>
-                    <div><img alt={'ava'} src={u.photos.small !== null ? u.photos.small : userPhoto}
-                              className={s.avatar}/></div>
+                    <div>
+                        <Link to={'/profile/' + u.id}>
+                        <img alt={'ava'} src={u.photos.small !== null ? u.photos.small : userPhoto}
+                             className={s.avatar}/>
+                        </Link>
+                    </div>
                     <div>{u.followed
                         ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button>
                         : <button onClick={() => props.follow(u.id)}>Follow</button>}</div>
