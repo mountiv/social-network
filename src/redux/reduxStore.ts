@@ -10,19 +10,22 @@ import {
     unfollow,
     UsersPageReducer
 } from "./UsersPageReducer";
+import {authReducer, setUserData} from "./AuthReducer";
 
 export type ActionsType = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangeNewTextAC> |
     ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof ChangeDialogMessageTextAC> |
     ReturnType<typeof follow> | ReturnType<typeof unfollow> | ReturnType<typeof setUsers> |
     ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> |
-    ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile>;
+    ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> |
+    ReturnType<typeof setUserData>;
 
 
 let rootReducer = combineReducers({
     profilePage: ProfilePageReducer,
     dialogsPage: DialogsPageReducer,
     sideBar: SideBarReducer,
-    usersPage: UsersPageReducer
+    usersPage: UsersPageReducer,
+    auth: authReducer
 })
 
 export let store = createStore(rootReducer);
