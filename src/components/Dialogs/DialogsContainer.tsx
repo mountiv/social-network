@@ -2,13 +2,14 @@ import React from "react";
 import {AddDialogMessageAC, ChangeDialogMessageTextAC} from "../../redux/DialogsPageReducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {RootStateType} from "../../redux/state";
 import {Dispatch} from "redux";
+import {RootStateType} from "../../redux/reduxStore";
 
 type mapStatePropsType = {
     dialogsData: Array<{id: number, name: string}>
     messageData: Array<{id: number, message: string}>
     message: string
+    isAuth: boolean
 }
 
 type mapDispatchPropsType = {
@@ -22,7 +23,8 @@ const mapStateToProps = (state: RootStateType): mapStatePropsType => {
     return {
         dialogsData: state.dialogsPage.dialogsData,
         messageData: state.dialogsPage.messageData,
-        message: state.dialogsPage.newMessageText
+        message: state.dialogsPage.newMessageText,
+        isAuth: state.auth.isAuth
     }
 }
 

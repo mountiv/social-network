@@ -3,8 +3,9 @@ import {Header} from "./Header";
 import axios from "axios";
 import {connect} from "react-redux";
 import {RootStateType} from "../../redux/reduxStore";
-import {AuthType, setUserData} from "../../redux/AuthReducer";
+import {AuthType, loginUser, setUserData} from "../../redux/AuthReducer";
 import {toggleIsFetching} from "../../redux/UsersPageReducer";
+import {authApi} from "../../api/api";
 
 export type AuthResponse = {
     resultCode: number
@@ -21,8 +22,7 @@ export type AuthResponse = {
 export type AuthContainerType = {
     isAuth: boolean
     login: string | null
-    setUserData: (userId: number, email: string, login: string) => void
-    toggleIsFetching: (isFetching: boolean) => void
+    loginUser: () => void
 }
 
 export class HeaderC extends React.Component<AuthContainerType> {
@@ -31,18 +31,7 @@ export class HeaderC extends React.Component<AuthContainerType> {
     }
 
     componentDidMount() {
-        this.props.toggleIsFetching(true)
-        axios.get<AuthResponse>(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-        })
-            .then(response => {
-                this.props.toggleIsFetching(false)
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data
-                    this.props.setUserData(id, email, login)
-                }
-                debugger
-            })
+        this.props.loginUser()
     }
 }
 
@@ -53,4 +42,4 @@ const mapStateToProps = (state: RootStateType): { isAuth: boolean, login: string
     }
 }
 
-export const HeaderContainer = connect(mapStateToProps, {setUserData, toggleIsFetching})(HeaderC)
+export const HeaderContainer = connect(mapStateToProps, {loginUser})(HeaderC)

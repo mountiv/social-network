@@ -1,5 +1,7 @@
 import {ActionsType} from "./reduxStore";
 import {postDataType} from "./state";
+import {Dispatch} from "redux";
+import {profileApi} from "../api/api";
 
 const ADD_POST = "ADD-POST"
 const CHANGE_NEW_TEXT = "CHANGE-NEW-TEXT"
@@ -19,6 +21,13 @@ export const setUserProfile = (profile: any) => ({
     type: SET_USER_PROFILE,
     profile: profile
 } as const)
+
+export const getUserProfile = (userId: string | undefined) => (dispatch: Dispatch) => {
+    profileApi.getUserProfile(userId)
+        .then(response => {
+            dispatch(setUserProfile(response))
+        })
+}
 
 export type userProfile = null | {
     aboutMe: string | null

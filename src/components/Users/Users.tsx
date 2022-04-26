@@ -3,6 +3,7 @@ import userPhoto from "../../assets/images/userPhoto.png";
 import React from "react";
 import {UsersType} from "../../redux/UsersPageReducer";
 import {Link} from "react-router-dom";
+import {usersApi} from "../../api/api";
 
 type UsersProps = {
     totalUsersCount: number
@@ -12,6 +13,7 @@ type UsersProps = {
     unfollow: (id: number) => void
     users: Array<UsersType>
     onPageChanged: (page: number) => void
+    followInProgress: number[]
 }
 
 export const Users = (props: UsersProps) => {
@@ -38,8 +40,12 @@ export const Users = (props: UsersProps) => {
                         </Link>
                     </div>
                     <div>{u.followed
-                        ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button>
-                        : <button onClick={() => props.follow(u.id)}>Follow</button>}</div>
+                        ? <button disabled={props.followInProgress.some(id => id === u.id)} onClick={() => {
+                            props.unfollow(u.id)
+                        }}>Unfollow</button>
+                        : <button disabled={props.followInProgress.some(id => id === u.id)} onClick={() => {
+                            props.follow(u.id)
+                        }}>Follow</button>}</div>
                 </span>
                 <span>
                     <span>

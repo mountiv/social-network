@@ -1,7 +1,6 @@
 import React from "react";
 import s from './Header.module.css'
 import {Link} from "react-router-dom";
-import {isBoolean} from "util";
 
 type HeaderType = {
     isAuth: boolean

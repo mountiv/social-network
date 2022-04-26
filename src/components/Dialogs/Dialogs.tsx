@@ -4,6 +4,7 @@ import {DialogItem} from "./DialogItem/DialogItem";
 
 import React, {ChangeEvent} from "react";
 import {DialogsType} from "./DialogsContainer";
+import { Navigate } from 'react-router-dom';
 
 /*type DialogsType = {
     dialogsData: Array<{
@@ -33,6 +34,8 @@ export const Dialogs = (props: DialogsType) => {
         .map(d => <DialogItem name={d.name} id={d.id}/>)
     let messageElement = props.messageData
         .map(m => <Message message={m.message}/>)
+
+    if(!props.isAuth) <Navigate to={'/login'}/>
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
