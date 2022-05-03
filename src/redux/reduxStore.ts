@@ -1,6 +1,13 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {AddDialogMessageAC, ChangeDialogMessageTextAC, DialogsPageReducer} from "./DialogsPageReducer";
-import {AddPostAC, ChangeNewTextAC, ProfilePageReducer, setUserProfile} from "./ProfilePageReducer";
+import {
+    AddPostAC,
+    ChangeNewTextAC,
+    ProfilePageReducer,
+    setUserProfile,
+    setUserStatus,
+    updateUserStatus
+} from "./ProfilePageReducer";
 import {SideBarReducer} from "./SideBarPageReducer";
 import thunk from 'redux-thunk'
 import {
@@ -17,7 +24,8 @@ export type ActionsType = ReturnType<typeof AddPostAC> | ReturnType<typeof Chang
     ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof ChangeDialogMessageTextAC> |
     ReturnType<typeof followAccept> | ReturnType<typeof unfollowAccept> | ReturnType<typeof setUsers> |
     ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> |
-    ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> |
+    ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setUserStatus> |
+    ReturnType<typeof updateUserStatus> |
     ReturnType<typeof setUserData> | ReturnType<typeof toggleFollowingProgress>;
 
 

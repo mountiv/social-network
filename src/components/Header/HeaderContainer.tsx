@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import {Header} from "./Header";
 import axios from "axios";
 import {connect} from "react-redux";
@@ -6,6 +6,7 @@ import {RootStateType} from "../../redux/reduxStore";
 import {AuthType, loginUser, setUserData} from "../../redux/AuthReducer";
 import {toggleIsFetching} from "../../redux/UsersPageReducer";
 import {authApi} from "../../api/api";
+import {compose} from "redux";
 
 export type AuthResponse = {
     resultCode: number
@@ -25,7 +26,7 @@ export type AuthContainerType = {
     loginUser: () => void
 }
 
-export class HeaderC extends React.Component<AuthContainerType> {
+export class HeaderContainer extends React.Component<AuthContainerType> {
     render() {
         return <Header isAuth={this.props.isAuth} login={this.props.login}/>
     }
@@ -42,4 +43,4 @@ const mapStateToProps = (state: RootStateType): { isAuth: boolean, login: string
     }
 }
 
-export const HeaderContainer = connect(mapStateToProps, {loginUser})(HeaderC)
+export default compose<ComponentType>(connect(mapStateToProps, {loginUser}))(HeaderContainer)

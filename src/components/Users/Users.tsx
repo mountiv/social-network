@@ -24,10 +24,10 @@ export const Users = (props: UsersProps) => {
     }
 
     return <div>
-        <div>
+        <div className={s.pagination}>
             {pages.map(p =>
                 <span onClick={() => props.onPageChanged(p)}
-                      className={props.currentPage === p ? s.selected : ''}>{p}</span>
+                      className={props.currentPage === p ? s.selected : ''}>{p }</span>
             )}
         </div>
         {props.users.map((u =>

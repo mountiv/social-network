@@ -6,6 +6,8 @@ import {profileApi} from "../api/api";
 const ADD_POST = "ADD-POST"
 const CHANGE_NEW_TEXT = "CHANGE-NEW-TEXT"
 const SET_USER_PROFILE = "SET-USER-PROFILE"
+const SET_USER_STATUS = "SET-USER-STATUS"
+const UPDATE_STATUS = "UPDATE-STATUS"
 
 export const AddPostAC = (postText: string) => ({
     type: ADD_POST,
@@ -17,19 +19,45 @@ export const ChangeNewTextAC = (newText: string) => ({
     newText: newText
 } as const)
 
-export const setUserProfile = (profile: any) => ({
+export const setUserProfile = (profile: userProfile) => ({
     type: SET_USER_PROFILE,
     profile: profile
 } as const)
 
-export const getUserProfile = (userId: string | undefined) => (dispatch: Dispatch) => {
+export const setUserStatus = (status: string) => ({
+    type: SET_USER_STATUS,
+    status: status
+} as const)
+
+export const setNewStatus = (status: string) => ({
+    type: UPDATE_STATUS,
+    status: status
+} as const)
+
+export const getUserProfile = (userId: number | undefined) => (dispatch: Dispatch) => {
     profileApi.getUserProfile(userId)
         .then(response => {
             dispatch(setUserProfile(response))
         })
 }
 
-export type userProfile = null | {
+export const getUserStatus = (userId: number | undefined) => (dispatch: Dispatch) => {
+    profileApi.getUserStatus(userId)
+        .then(response => {
+            dispatch(setUserStatus(response))
+        })
+}
+
+export const updateStatus = (status: string) => (dispatch: Dispatch) => {
+    profileApi.updateUserStatus(status)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setNewStatus(status))
+            }
+        })
+}
+
+export type userProfile = {
     aboutMe: string | null
     contacts: {
         facebook: string | null
@@ -54,7 +82,8 @@ export type userProfile = null | {
 export type profilePageType = {
     postsData: Array<postDataType>
     newPostText: string
-    profile: userProfile
+    profile: userProfile | null
+    status: string
 }
 
 
@@ -64,7 +93,8 @@ const initialState: profilePageType = {
         {id: 2, message: 'I like it-kamasutra', likeCounts: 139}
     ],
     newPostText: '',
-    profile: null
+    profile: null,
+    status: ''
 }
 
 export const ProfilePageReducer = (state = initialState, action: ActionsType): profilePageType => {
@@ -82,6 +112,9 @@ export const ProfilePageReducer = (state = initialState, action: ActionsType): p
             return {...state, newPostText: action.newText};
         case SET_USER_PROFILE:
             return {...state, profile: action.profile};
+        case SET_USER_STATUS:
+        case UPDATE_STATUS:
+            return {...state, status: action.status}
         default:
             return state
     }
