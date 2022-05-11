@@ -14,6 +14,8 @@ export type ProfileType = {
     profile: userProfile
     status: string
     params: PathParamsType
+    isAuth: boolean
+    authorizedUserId: number
 }
 
 type PathParamsType = {
@@ -29,24 +31,31 @@ const withRouter = (WrappedComponent: typeof ProfileContainer) => (props: Omit<P
 
 export class ProfileContainer extends React.Component<ProfileType> {
     componentDidMount() {
-        let userId = this.props.params.userId
-        this.props.getUserProfile(Number(userId))
-        this.props.getUserStatus(Number(userId))
+        let userId = Number(this.props.params.userId)
+        if (!userId) {
+            userId = this.props.authorizedUserId
+        }
+        this.props.getUserProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
     render() {
         return (
             <div>
-                <Profile profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus}/>
+                <Profile profile={this.props.profile} status={this.props.status}
+                         updateStatus={this.props.updateStatus}/>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state: RootStateType): { profile: userProfile | null, status: string } => {
+const mapStateToProps = (state: RootStateType): { profile: userProfile | null, status: string,
+    isAuth: boolean, authorizedUserId: number | null } => {
     return {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        isAuth: state.auth.isAuth,
+        authorizedUserId: state.auth.userId
     }
 }
 

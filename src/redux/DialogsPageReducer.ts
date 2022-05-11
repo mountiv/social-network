@@ -1,14 +1,29 @@
-import {ActionsType, dialogsPageType} from "./state";
+import {ActionsType} from "./reduxStore";
 
 export const AddDialogMessageAC = (newMessage: string) => ({
     type: "ADD-DIALOG-MESSAGE",
     newMessage: newMessage
 } as const)
 
-export const ChangeDialogMessageTextAC = (newText: string) => ({
-    type: "CHANGE-DIALOG-MESSAGE",
-    newText: newText
-} as const)
+// export const ChangeDialogMessageTextAC = (newText: string) => ({
+//     type: "CHANGE-DIALOG-MESSAGE",
+//     newText: newText
+// } as const)
+
+export type  dialogsPageType = {
+    dialogsData: Array<dialogsDataType>
+    messageData: Array<messageDataType>
+}
+export type messageDataType = {
+    id: number
+    message: string
+}
+
+export type dialogsDataType = {
+    id: number
+    name: string
+}
+
 
 const initialState: dialogsPageType = {
     dialogsData: [
@@ -27,15 +42,13 @@ const initialState: dialogsPageType = {
         {id: 4, message: 'I like it'},
         {id: 5, message: 'I like it-kamasutra'}
     ],
-
-    newMessageText: ''
 }
 
 export const DialogsPageReducer = (state = initialState, action: ActionsType): dialogsPageType => {
     switch (action.type) {
-        case "CHANGE-DIALOG-MESSAGE":
-            // state.newMessageText = action.newText
-            return {...state, newMessageText: action.newText};
+        // case "CHANGE-DIALOG-MESSAGE":
+        //     // state.newMessageText = action.newText
+        //     return {...state, newMessageText: action.newText};
         case "ADD-DIALOG-MESSAGE":
             let newMessageData = {id: 6, message: action.newMessage};
             // state.messageData.push(newMessageData)

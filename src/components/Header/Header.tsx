@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 type HeaderType = {
     isAuth: boolean
     login: string | null
+    logout: () => void
 }
 
 export const Header = (props: HeaderType) => {
@@ -14,7 +15,7 @@ export const Header = (props: HeaderType) => {
                  alt='Logo'/>
             <div className={s.loginBlock}>
                 {props.isAuth
-                    ? props.login
+                    ? <div>{props.login} - <button onClick={props.logout}>Log out</button></div>
                     : <Link to='/login'>Login</Link>
                 }
             </div>

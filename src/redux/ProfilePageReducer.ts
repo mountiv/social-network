@@ -4,7 +4,6 @@ import {Dispatch} from "redux";
 import {profileApi} from "../api/api";
 
 const ADD_POST = "ADD-POST"
-const CHANGE_NEW_TEXT = "CHANGE-NEW-TEXT"
 const SET_USER_PROFILE = "SET-USER-PROFILE"
 const SET_USER_STATUS = "SET-USER-STATUS"
 const UPDATE_STATUS = "UPDATE-STATUS"
@@ -14,10 +13,6 @@ export const AddPostAC = (postText: string) => ({
     postText: postText
 } as const)
 
-export const ChangeNewTextAC = (newText: string) => ({
-    type: CHANGE_NEW_TEXT,
-    newText: newText
-} as const)
 
 export const setUserProfile = (profile: userProfile) => ({
     type: SET_USER_PROFILE,
@@ -81,7 +76,6 @@ export type userProfile = {
 
 export type profilePageType = {
     postsData: Array<postDataType>
-    newPostText: string
     profile: userProfile | null
     status: string
 }
@@ -92,7 +86,6 @@ const initialState: profilePageType = {
         {id: 1, message: 'Hey, I like you', likeCounts: 13},
         {id: 2, message: 'I like it-kamasutra', likeCounts: 139}
     ],
-    newPostText: '',
     profile: null,
     status: ''
 }
@@ -105,11 +98,7 @@ export const ProfilePageReducer = (state = initialState, action: ActionsType): p
                 message: action.postText,
                 likeCounts: 0
             };
-            // state.postsData.push(newPost)
             return {...state, postsData: [...state.postsData, newPost]}
-        case CHANGE_NEW_TEXT:
-            // state.newPostText = action.newText
-            return {...state, newPostText: action.newText};
         case SET_USER_PROFILE:
             return {...state, profile: action.profile};
         case SET_USER_STATUS:

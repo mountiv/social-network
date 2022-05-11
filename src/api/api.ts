@@ -1,6 +1,7 @@
 import axios from "axios";
 import {UsersType} from "../redux/UsersPageReducer";
 import {AuthResponse} from "../components/Header/HeaderContainer";
+import {FormDataType} from "../components/Login/Login";
 
 
 const instance = axios.create({
@@ -49,8 +50,20 @@ export const profileApi = {
 }
 
 export const authApi = {
-    loginUser() {
+    authMe() {
         return instance.get<AuthResponse>(`auth/me`)
             .then(response => response.data)
     },
+
+    login(formData: FormDataType) {
+        return instance.post<AuthResponse>(`auth/login`, {...formData})
+            .then(response => response.data)
+    },
+
+    logout() {
+        return instance.delete<AuthResponse>(`auth/login`)
+            .then(response => response.data)
+    }
+
+
 }

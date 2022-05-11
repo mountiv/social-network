@@ -1,12 +1,10 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import {AddDialogMessageAC, ChangeDialogMessageTextAC, DialogsPageReducer} from "./DialogsPageReducer";
+import {AddDialogMessageAC, DialogsPageReducer} from "./DialogsPageReducer";
 import {
     AddPostAC,
-    ChangeNewTextAC,
-    ProfilePageReducer,
+    ProfilePageReducer, setNewStatus,
     setUserProfile,
     setUserStatus,
-    updateUserStatus
 } from "./ProfilePageReducer";
 import {SideBarReducer} from "./SideBarPageReducer";
 import thunk from 'redux-thunk'
@@ -18,15 +16,16 @@ import {
     unfollowAccept,
     UsersPageReducer
 } from "./UsersPageReducer";
-import {authReducer, setUserData} from "./AuthReducer";
+import {authReducer, setFormData, setUserData} from "./AuthReducer";
+import { reducer as formReducer } from 'redux-form'
 
-export type ActionsType = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangeNewTextAC> |
-    ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof ChangeDialogMessageTextAC> |
-    ReturnType<typeof followAccept> | ReturnType<typeof unfollowAccept> | ReturnType<typeof setUsers> |
+export type ActionsType = ReturnType<typeof AddPostAC> |
+    ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof followAccept> | ReturnType<typeof unfollowAccept> | ReturnType<typeof setUsers> |
     ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> |
     ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setUserStatus> |
-    ReturnType<typeof updateUserStatus> |
-    ReturnType<typeof setUserData> | ReturnType<typeof toggleFollowingProgress>;
+    ReturnType<typeof setNewStatus> |
+    ReturnType<typeof setUserData> | ReturnType<typeof toggleFollowingProgress> |
+    ReturnType<typeof setFormData>    ;
 
 
 let rootReducer = combineReducers({
@@ -34,10 +33,14 @@ let rootReducer = combineReducers({
     dialogsPage: DialogsPageReducer,
     sideBar: SideBarReducer,
     usersPage: UsersPageReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 export let store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type RootStateType = ReturnType<typeof rootReducer>
 export type DispatchType = typeof store.dispatch
+
+//@ts-ignore
+window.store = store

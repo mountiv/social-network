@@ -1,5 +1,5 @@
-import {AddPostAC, ChangeNewTextAC, ProfilePageReducer} from "./ProfilePageReducer";
-import {AddDialogMessageAC, ChangeDialogMessageTextAC, DialogsPageReducer} from "./DialogsPageReducer";
+import {AddPostAC, ProfilePageReducer} from "./ProfilePageReducer";
+import {AddDialogMessageAC,  DialogsPageReducer} from "./DialogsPageReducer";
 import {sideBarType} from "./SideBarPageReducer";
 
 export type postDataType = {
@@ -43,8 +43,8 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-export type ActionsType = ReturnType<typeof AddPostAC> | ReturnType<typeof ChangeNewTextAC> |
-    ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof ChangeDialogMessageTextAC>;
+export type ActionsType = ReturnType<typeof AddPostAC> |
+    ReturnType<typeof AddDialogMessageAC> ;
 
 export const store: StoreType = {
     _state: {
@@ -89,7 +89,7 @@ export const store: StoreType = {
     },
     dispatch(action) {
         //this._state.profilePage = ProfilePageReducer(this._state.profilePage, action)
-        this._state.dialogsPage = DialogsPageReducer(this._state.dialogsPage, action)
+        // this._state.dialogsPage = DialogsPageReducer(this._state.dialogsPage, action)
         this._onChange();
     }
 }
