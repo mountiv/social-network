@@ -17,15 +17,30 @@ import {
     UsersPageReducer
 } from "./UsersPageReducer";
 import {authReducer, setFormData, setUserData} from "./AuthReducer";
-import { reducer as formReducer } from 'redux-form'
+import {reducer as formReducer} from 'redux-form'
+import {appReducer} from "./AppReducer";
 
-export type ActionsType = ReturnType<typeof AddPostAC> |
-    ReturnType<typeof AddDialogMessageAC> | ReturnType<typeof followAccept> | ReturnType<typeof unfollowAccept> | ReturnType<typeof setUsers> |
-    ReturnType<typeof setCurrentPage> | ReturnType<typeof setTotalUsersCount> |
-    ReturnType<typeof toggleIsFetching> | ReturnType<typeof setUserProfile> | ReturnType<typeof setUserStatus> |
-    ReturnType<typeof setNewStatus> |
-    ReturnType<typeof setUserData> | ReturnType<typeof toggleFollowingProgress> |
-    ReturnType<typeof setFormData>    ;
+export type ActionsType =
+    ReturnType<typeof AddPostAC>
+    |
+    ReturnType<typeof AddDialogMessageAC>
+    | ReturnType<typeof followAccept>
+    | ReturnType<typeof unfollowAccept>
+    | ReturnType<typeof setUsers>
+    |
+    ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof setTotalUsersCount>
+    |
+    ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setUserStatus>
+    |
+    ReturnType<typeof setNewStatus>
+    |
+    ReturnType<typeof setUserData>
+    | ReturnType<typeof toggleFollowingProgress>
+    |
+    ReturnType<typeof setFormData>;
 
 
 let rootReducer = combineReducers({
@@ -34,7 +49,8 @@ let rootReducer = combineReducers({
     sideBar: SideBarReducer,
     usersPage: UsersPageReducer,
     auth: authReducer,
-    form: formReducer
+    form: formReducer,
+    app: appReducer
 })
 
 export let store = createStore(rootReducer, applyMiddleware(thunk));

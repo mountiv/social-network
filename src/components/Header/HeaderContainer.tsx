@@ -20,17 +20,12 @@ export type AuthResponse = {
 export type AuthContainerType = {
     isAuth: boolean
     login: string | null
-    authMe: () => void
     logout: () => void
 }
 
 export class HeaderContainer extends React.Component<AuthContainerType> {
     render() {
         return <Header isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logout}/>
-    }
-
-    componentDidMount() {
-        this.props.authMe()
     }
 }
 
@@ -41,4 +36,4 @@ const mapStateToProps = (state: RootStateType): { isAuth: boolean, login: string
     }
 }
 
-export default compose<ComponentType>(connect(mapStateToProps, {authMe, logout}))(HeaderContainer)
+export default compose<ComponentType>(connect(mapStateToProps, {logout}))(HeaderContainer)

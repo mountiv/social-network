@@ -3,9 +3,9 @@ import {connect} from "react-redux";
 import {RootStateType} from "../../redux/reduxStore";
 import {getUserProfile, getUserStatus, updateStatus, userProfile} from "../../redux/ProfilePageReducer";
 import {Profile} from "./Profile";
-import {useParams} from "react-router-dom";
 import {withAuthRedirect} from "../common/WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
+import {PathParamsType, withRouter} from "../common/withRouter/withRouterHOC";
 
 export type ProfileType = {
     getUserProfile: (userId: number | undefined) => void
@@ -16,17 +16,6 @@ export type ProfileType = {
     params: PathParamsType
     isAuth: boolean
     authorizedUserId: number
-}
-
-type PathParamsType = {
-    userId?: string
-}
-
-const withRouter = (WrappedComponent: typeof ProfileContainer) => (props: Omit<ProfileType, 'params'>) => {
-    const params = useParams<PathParamsType>()
-    return (
-        <WrappedComponent {...props} params={params}/>
-    )
 }
 
 export class ProfileContainer extends React.Component<ProfileType> {

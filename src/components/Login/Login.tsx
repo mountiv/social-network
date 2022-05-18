@@ -24,7 +24,7 @@ export const Login = () => {
         dispatch(login({...formData}))
     }
 
-    if (isAuth) return <Link to={'profile'}/>
+    if (isAuth) return <Navigate to={'/profile'} replace={true}/>
     return <div>
         <h1>Login</h1>
         <LoginReduxForm onSubmit={onSubmit}/>
@@ -49,9 +49,10 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
         <div>
             <Field name={'rememberMe'} component={Input} type={'checkbox'}/> Remember me
         </div>
-        {props.error && <div className={s.formSummaryError}>
-            {props.error}
-        </div>}
+        {props.error &&
+            <div className={s.formSummaryError}>
+                {props.error}
+            </div>}
         <div>
             <button>Log In</button>
         </div>

@@ -16,7 +16,7 @@ export const setFormData = (formData: FormDataType) =>
 
 export const authMe = () => (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    authApi.authMe()
+    return authApi.authMe()
         .then(response => {
             dispatch(toggleIsFetching(false))
             if (response.resultCode === 0) {
@@ -28,7 +28,6 @@ export const authMe = () => (dispatch: Dispatch) => {
 
 export const login = (formData: FormDataType) => (dispatch: any) => {
     dispatch(toggleIsFetching(true))
-
     authApi.login(formData)
         .then(response => {
             dispatch(toggleIsFetching(false))
