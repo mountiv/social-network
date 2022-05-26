@@ -1,9 +1,7 @@
 import React from "react";
-import s from './ProfileInfo.module.css'
-import {userProfile} from "../../../redux/ProfilePageReducer";
 import {Preloader} from "../../common/Preloader/Preloader";
-import {ProfileStatus} from "../ProfileStatus/ProfileStatus";
 import {ProfileType} from "../Profile";
+import {ProfileStatus} from "../ProfileStatus/ProfileStatus";
 
 export const ProfileInfo = (props: ProfileType) => {
     const profile = {...props.profile, contacts: {...props.profile.contacts}, photos: {...props.profile.photos}}
