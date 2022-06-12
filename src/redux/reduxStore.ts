@@ -1,46 +1,18 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import {AddDialogMessageAC, DialogsPageReducer} from "./DialogsPageReducer";
-import {
-    AddPostAC,
-    ProfilePageReducer, setNewStatus,
-    setUserProfile,
-    setUserStatus,
-} from "./ProfilePageReducer";
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {DialogsActionsType, DialogsPageReducer} from "./DialogsPageReducer";
+import {ProfileActionsType, ProfilePageReducer,} from "./ProfilePageReducer";
 import {SideBarReducer} from "./SideBarPageReducer";
 import thunk from 'redux-thunk'
-import {
-    followAccept,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleFollowingProgress, toggleIsFetching,
-    unfollowAccept,
-    UsersPageReducer
-} from "./UsersPageReducer";
-import {authReducer, setFormData, setUserData} from "./AuthReducer";
+import {UsersActionsType, UsersPageReducer} from "./UsersPageReducer";
+import {AuthActionsType, authReducer} from "./AuthReducer";
 import {reducer as formReducer} from 'redux-form'
-import {appReducer} from "./AppReducer";
+import {AppActionsType, appReducer} from "./AppReducer";
 
-export type ActionsType =
-    ReturnType<typeof AddPostAC>
-    |
-    ReturnType<typeof AddDialogMessageAC>
-    | ReturnType<typeof followAccept>
-    | ReturnType<typeof unfollowAccept>
-    | ReturnType<typeof setUsers>
-    |
-    ReturnType<typeof setCurrentPage>
-    | ReturnType<typeof setTotalUsersCount>
-    |
-    ReturnType<typeof toggleIsFetching>
-    | ReturnType<typeof setUserProfile>
-    | ReturnType<typeof setUserStatus>
-    |
-    ReturnType<typeof setNewStatus>
-    |
-    ReturnType<typeof setUserData>
-    | ReturnType<typeof toggleFollowingProgress>
-    |
-    ReturnType<typeof setFormData>;
+export type ActionsType = ProfileActionsType
+    | AppActionsType
+    | AuthActionsType
+    | DialogsActionsType
+    | UsersActionsType
 
 
 let rootReducer = combineReducers({
@@ -53,7 +25,9 @@ let rootReducer = combineReducers({
     app: appReducer
 })
 
-export let store = createStore(rootReducer, applyMiddleware(thunk));
+//@ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 export type RootStateType = ReturnType<typeof rootReducer>
 export type DispatchType = typeof store.dispatch

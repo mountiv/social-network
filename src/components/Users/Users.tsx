@@ -1,9 +1,7 @@
-import s from "./Users.module.css";
-import userPhoto from "../../assets/images/userPhoto.png";
 import React from "react";
 import {UsersType} from "../../redux/UsersPageReducer";
-import {Link} from "react-router-dom";
-import {usersApi} from "../../api/api";
+import {Paginator} from "../common/Paginator/Paginator";
+import {User} from "./User";
 
 type UsersProps = {
     totalUsersCount: number
@@ -16,47 +14,19 @@ type UsersProps = {
     followInProgress: number[]
 }
 
-export const Users = (props: UsersProps) => {
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-    let pages = []
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
-
+export const Users = ({totalUsersCount, currentPage, onPageChanged, pageSize, ...props}: UsersProps) => {
     return <div>
-        <div className={s.pagination}>
-            {pages.map(p =>
-                <span onClick={() => props.onPageChanged(p)}
-                      className={props.currentPage === p ? s.selected : ''}>{p }</span>
-            )}
-        </div>
-        {props.users.map((u =>
-            <div key={u.id}>
-                <span>
-                    <div>
-                        <Link to={'/profile/' + u.id}>
-                        <img alt={'ava'} src={u.photos.small !== null ? u.photos.small : userPhoto}
-                             className={s.avatar}/>
-                        </Link>
-                    </div>
-                    <div>{u.followed
-                        ? <button disabled={props.followInProgress.some(id => id === u.id)} onClick={() => {
-                            props.unfollow(u.id)
-                        }}>Unfollow</button>
-                        : <button disabled={props.followInProgress.some(id => id === u.id)} onClick={() => {
-                            props.follow(u.id)
-                        }}>Follow</button>}</div>
-                </span>
-                <span>
-                    <span>
-                        <div>{u.name}</div>
-                        <div>{u.status}</div>
-                     </span>
-                    <span>
-                        <div>{'location.country'}</div>
-                        <div>{'location.city'}</div>
-                     </span>
-                </span>
-            </div>))}
+        <Paginator onPageChanged={onPageChanged}
+                   currentPage={currentPage}
+                   pageSize={pageSize}
+                   totalUsersCount={totalUsersCount}/>
+        {props.users.map(u =>
+            <User key={u.id}
+                  user={u}
+                  follow={props.follow}
+                  unfollow={props.unfollow}
+                  followInProgress={props.followInProgress}
+            />)}
+
     </div>
 }

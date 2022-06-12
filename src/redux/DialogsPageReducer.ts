@@ -1,30 +1,6 @@
 import {ActionsType} from "./reduxStore";
 
-export const AddDialogMessageAC = (newMessage: string) => ({
-    type: "ADD-DIALOG-MESSAGE",
-    newMessage: newMessage
-} as const)
-
-// export const ChangeDialogMessageTextAC = (newText: string) => ({
-//     type: "CHANGE-DIALOG-MESSAGE",
-//     newText: newText
-// } as const)
-
-export type  dialogsPageType = {
-    dialogsData: Array<dialogsDataType>
-    messageData: Array<messageDataType>
-}
-export type messageDataType = {
-    id: number
-    message: string
-}
-
-export type dialogsDataType = {
-    id: number
-    name: string
-}
-
-
+//initial state
 const initialState: dialogsPageType = {
     dialogsData: [
         {id: 1, name: 'Viktor'},
@@ -44,17 +20,43 @@ const initialState: dialogsPageType = {
     ],
 }
 
-export const DialogsPageReducer = (state = initialState, action: ActionsType): dialogsPageType => {
+export const AddDialogMessageAC = (newMessage: string) => ({
+    type: "ADD-DIALOG-MESSAGE",
+    newMessage: newMessage
+} as const)
+
+// export const ChangeDialogMessageTextAC = (newText: string) => ({
+//     type: "CHANGE-DIALOG-MESSAGE",
+//     newText: newText
+// } as const)
+
+//reducer
+export const DialogsPageReducer = (state = initialState, action: DialogsActionsType): dialogsPageType => {
     switch (action.type) {
         // case "CHANGE-DIALOG-MESSAGE":
-        //     // state.newMessageText = action.newText
         //     return {...state, newMessageText: action.newText};
         case "ADD-DIALOG-MESSAGE":
             let newMessageData = {id: 6, message: action.newMessage};
-            // state.messageData.push(newMessageData)
             return {...state, messageData: [...state.messageData, newMessageData]};
         default:
             return state
     }
 }
+
+//types
+export type  dialogsPageType = {
+    dialogsData: Array<dialogsDataType>
+    messageData: Array<messageDataType>
+}
+export type messageDataType = {
+    id: number
+    message: string
+}
+
+export type dialogsDataType = {
+    id: number
+    name: string
+}
+
+export type DialogsActionsType = ReturnType<typeof AddDialogMessageAC>
 

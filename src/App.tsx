@@ -1,14 +1,10 @@
-import React, {ComponentType} from 'react';
+import React, {ComponentType, lazy, Suspense} from 'react';
 import './App.css';
 import {NavBar} from "./components/NavBar/NavBar";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import Dialogs from "./components/Dialogs/DialogsContainer";
-import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -16,6 +12,13 @@ import {withRouter} from "./components/common/withRouter/withRouterHOC";
 import {AppType, initializeApp} from "./redux/AppReducer";
 import {RootStateType} from "./redux/reduxStore";
 import {Preloader} from "./components/common/Preloader/Preloader";
+import HeaderContainer from "./components/Header/HeaderContainer";
+import {withSuspense} from "./components/common/withSuspense/withSuspense";
+
+const Dialogs = lazy(() => import( "./components/Dialogs/DialogsContainer"));
+const UsersContainer = lazy(() => import( "./components/Users/UsersContainer"));
+const ProfileContainer = lazy(() => import( "./components/Profile/ProfileContainer"));
+
 
 type AppPropsType = AppType & {
     initializeApp: () => void
@@ -31,11 +34,11 @@ class App extends React.Component<AppPropsType> {
             return <Preloader/>
         }
         return (
-            <BrowserRouter>
-                <div className='app-wrapper'>
-                    <HeaderContainer/>
-                    <NavBar/>
-                    <div className='app-wrapper content'>
+            <div className='app-wrapper'>
+                <HeaderContainer/>
+                <NavBar/>
+                <div className='app-wrapper content'>
+                    <Suspense fallback={<Preloader/>}>
                         <Routes>
                             <Route path='/profile/:userId' element={<ProfileContainer/>}/>
                             <Route path='/profile' element={<ProfileContainer/>}/>
@@ -46,10 +49,10 @@ class App extends React.Component<AppPropsType> {
                             <Route path='/settings' element={<Settings/>}/>
                             <Route path='/login' element={<Login/>}/>
                         </Routes>
+                    </Suspense>
 
-                    </div>
                 </div>
-            </BrowserRouter>
+            </div>
         );
     }
 }

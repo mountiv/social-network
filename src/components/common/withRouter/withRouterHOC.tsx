@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import React from "react";
-import {ProfileContainer, ProfileType} from "../../Profile/ProfileContainer";
+import {ProfileContainer} from "../../Profile/ProfileContainer";
 
 export type PathParamsType = {
     userId?: string
