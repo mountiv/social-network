@@ -2,6 +2,7 @@ import axios from "axios";
 import {UsersType} from "../redux/UsersPageReducer";
 import {AuthResponse} from "../components/Header/HeaderContainer";
 import {FormDataType} from "../components/Login/Login";
+import {ProfileDataType} from "../components/Profile/ProfileInfo/ProfileData/ProfileDataForm";
 
 
 const instance = axios.create({
@@ -34,18 +35,32 @@ export const usersApi = {
 }
 
 export const profileApi = {
-    getUserProfile(userId: number | undefined) {
+    getUserProfile(userId: number | null) {
         return instance.get(`profile/${userId}`)
             .then(response => response.data)
     },
 
-    getUserStatus(userId: number | undefined) {
+    getUserStatus(userId: number | null) {
         return instance.get(`profile/status/${userId}`)
             .then(response => response.data)
     },
 
     updateUserStatus(status: string) {
         return instance.put(`profile/status/`, {status})
+    },
+
+    updatePhoto(photo: string) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        return instance.put('profile/photo', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+
+    saveProfile(profile: ProfileDataType) {
+        return instance.put('profile', profile)
     }
 }
 

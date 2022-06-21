@@ -8,6 +8,9 @@ export type ProfileType = {
     profile: userProfile
     status: string
     updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (photo: any) => void
+    saveSubmit: (value: { profile: userProfile }) => void
 }
 
 export const Profile = (props: ProfileType) => {
@@ -15,11 +18,18 @@ export const Profile = (props: ProfileType) => {
         <div>
             {props.profile
                 ?
-                <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
-            :
-            <div className={s.imgWrapper}>
-                <img alt={'ava'} src='https://www.kartinki24.ru/uploads/gallery/main/374/kartinki24_ru_autumn_273.jpg'/>
-            </div>}
+                <ProfileInfo savePhoto={props.savePhoto}
+                             isOwner={props.isOwner}
+                             profile={props.profile}
+                             status={props.status}
+                             updateStatus={props.updateStatus}
+                             saveSubmit={props.saveSubmit}
+                />
+                :
+                <div className={s.imgWrapper}>
+                    <img alt={'ava'}
+                         src='https://www.kartinki24.ru/uploads/gallery/main/374/kartinki24_ru_autumn_273.jpg'/>
+                </div>}
             <MyPostsContainer/>
         </div>
     );
