@@ -1,7 +1,7 @@
 import {ActionsType} from "./reduxStore";
 import {TOGGLE_IS_FETCHING, toggleIsFetching} from "./UsersPageReducer";
 import {Dispatch} from "redux";
-import {authApi} from "../api/api";
+import {authApi, securityApi} from "../api/api";
 import {FormDataType} from "../components/Login/Login";
 import {stopSubmit} from "redux-form";
 
@@ -11,19 +11,24 @@ const initialState: AuthType = {
     userEmail: null,
     userLogin: null,
     isFetching: true,
-    isAuth: false
+    isAuth: false,
+    captcha: null
 
 }
 
 //actions
-const SET_USER_DATA = 'SET-USER-DATA'
-const SET_FORM_DATA = 'SET-FORM-DATA'
+const SET_USER_DATA = 'AUTH/SET-USER-DATA'
+const SET_FORM_DATA = 'AUTH/SET-FORM-DATA'
+const GET_CAPTCHA_URL = 'AUTH/GET-CAPTCHA-URL'
 
 export const setUserData = (userId: number | null, userEmail: string | null, userLogin: string | null, isAuth: boolean) =>
     ({type: SET_USER_DATA, payload: {userId, userEmail, userLogin, isAuth}} as const)
 
 export const setFormData = (formData: FormDataType) =>
     ({type: SET_FORM_DATA, payload: {...formData}} as const)
+
+export const getCaptchaUrlSuccess = (captcha: string) =>
+    ({type: GET_CAPTCHA_URL, captcha} as const)
 
 
 //reducer
@@ -39,6 +44,8 @@ export const authReducer = (state: AuthType = initialState, action: AuthActionsT
             return {
                 ...state, isFetching: action.isFetching
             };
+        case GET_CAPTCHA_URL:
+            return {...state, captcha: action.captcha}
         default:
             return state
     }
@@ -51,7 +58,7 @@ export const authMe = () => (dispatch: Dispatch) => {
         .then(response => {
             dispatch(toggleIsFetching(false))
             if (response.resultCode === 0) {
-                let {id, email, login} = response.data
+                const {id, email, login} = response.data
                 dispatch(setUserData(id, email, login, true))
             }
         })
@@ -59,24 +66,31 @@ export const authMe = () => (dispatch: Dispatch) => {
 
 export const login = (formData: FormDataType) => async (dispatch: any) => {
     dispatch(toggleIsFetching(true))
-    let response = await authApi.login(formData)
+    const response = await authApi.login(formData)
     dispatch(toggleIsFetching(false))
     if (response.resultCode === 0) {
         dispatch(authMe())
     } else {
-        let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+        if(response.resultCode === 10) {
+            dispatch(getCaptchaUrl())
+        }
+        const message = response.messages.length > 0 ? response.messages[0] : 'Some error'
         dispatch(stopSubmit('login', {_error: message}))
     }
 }
 
 export const logout = () => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    let response = await authApi.logout()
+    const response = await authApi.logout()
     dispatch(toggleIsFetching(false))
     if (response.resultCode === 0) {
         dispatch(setUserData(null, null, null, false))
     }
+}
 
+export const getCaptchaUrl = () => async (dispatch: Dispatch) => {
+    const response = await securityApi.getCaptchaUrl()
+    dispatch(getCaptchaUrlSuccess(response.url))
 }
 
 //types
@@ -86,11 +100,13 @@ export type AuthType = {
     userLogin: string | null
     isFetching: boolean
     isAuth: boolean
+    captcha: string | null
 }
 
 export type AuthActionsType = ReturnType<typeof setFormData>
     | ReturnType<typeof setUserData>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof getCaptchaUrlSuccess>
 
 
 

@@ -5,7 +5,7 @@ import {
     getUserProfile,
     getUserStatus,
     savePhoto,
-    saveSubmit,
+    saveSubmit, setProfileEdit,
     updateStatus,
     userProfile
 } from "../../redux/ProfilePageReducer";
@@ -25,6 +25,8 @@ export type ProfileType = {
     authorizedUserId: number
     savePhoto: (photo: string) => void
     saveSubmit: (value: { profile: userProfile }) => void
+    setProfileEdit: (profileEdit: boolean) => void
+    profileEdit: boolean
 }
 
 export class ProfileContainer extends React.Component<ProfileType> {
@@ -55,7 +57,10 @@ export class ProfileContainer extends React.Component<ProfileType> {
                          isOwner={!this.props.params.userId}
                          status={this.props.status}
                          updateStatus={this.props.updateStatus}
-                         saveSubmit={this.props.saveSubmit}/>
+                         saveSubmit={this.props.saveSubmit}
+                         setProfileEdit = {this.props.setProfileEdit}
+                         profileEdit={this.props.profileEdit}
+                />
             </div>
         );
     }
@@ -63,18 +68,19 @@ export class ProfileContainer extends React.Component<ProfileType> {
 
 const mapStateToProps = (state: RootStateType): {
     profile: userProfile | null, status: string,
-    isAuth: boolean, authorizedUserId: number | null
+    isAuth: boolean, authorizedUserId: number | null, profileEdit: boolean
 } => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
         isAuth: state.auth.isAuth,
-        authorizedUserId: state.auth.userId
+        authorizedUserId: state.auth.userId,
+        profileEdit: state.profilePage.profileEdit
     }
 }
 
 export default compose<ComponentType>(
     withRouter,
     withAuthRedirect,
-    connect(mapStateToProps, {getUserProfile, getUserStatus, updateStatus, savePhoto, saveSubmit})
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateStatus, savePhoto, saveSubmit, setProfileEdit})
 )(ProfileContainer)

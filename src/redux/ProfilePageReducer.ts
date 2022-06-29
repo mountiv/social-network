@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {profileApi} from "../api/api";
 import {ProfileDataType} from "../components/Profile/ProfileInfo/ProfileData/ProfileDataForm";
 import {RootStateType} from "./reduxStore";
+import {stopSubmit} from "redux-form";
 
 //initial state
 const initialState: profilePageType = {
@@ -11,7 +12,8 @@ const initialState: profilePageType = {
         {id: 2, message: 'I like it-kamasutra', likeCounts: 139}
     ],
     profile: {} as userProfile,
-    status: ''
+    status: '',
+    profileEdit: false
 }
 
 //actions
@@ -21,6 +23,7 @@ const SET_USER_STATUS = "PROFILE-PAGE/SET-USER-STATUS"
 const UPDATE_STATUS = "PROFILE-PAGE/UPDATE-STATUS"
 const DELETE_POST = "PROFILE-PAGE/DELETE-POST"
 const UPDATE_PHOTO = "PROFILE-PAGE/UPDATE-PHOTO"
+const SET_PROFILE_EDIT = "PROFILE-PAGE/PROFILE-EDIT"
 
 export const AddPostAC = (postText: string) => ({
     type: ADD_POST,
@@ -46,6 +49,9 @@ export const setNewPhoto = (photos: { small: string | null, large: string | null
     type: UPDATE_PHOTO,
     photos
 } as const)
+export const setProfileEdit = (profileEdit: boolean) => ({
+    type: SET_PROFILE_EDIT, profileEdit
+} as const)
 
 
 //reducer
@@ -69,6 +75,8 @@ export const ProfilePageReducer = (state = initialState, action: ProfileActionsT
             return {
                 ...state, profile: {...state.profile, photos: action.photos}
             }
+        case SET_PROFILE_EDIT:
+            return {...state, profileEdit: action.profileEdit}
         default:
             return state
     }
@@ -100,11 +108,16 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch) => {
     }
 }
 
-export const saveSubmit = (profile:ProfileDataType) => async (dispatch: any, getState:() => RootStateType) => {
+export const saveSubmit = (profile: ProfileDataType) => async (dispatch: any, getState: () => RootStateType) => {
     const userId: number | null = getState().auth.userId
     const response = await profileApi.saveProfile(profile)
     if (response.data.resultCode === 0) {
         dispatch(getUserProfile(userId))
+        dispatch(setProfileEdit(false))
+    } else {
+        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+        dispatch(stopSubmit('profileData', {_error: message}))
+        dispatch(setProfileEdit(true))
     }
 }
 
@@ -115,7 +128,8 @@ export type ProfileActionsType =
     | ReturnType<typeof setUserStatus>
     | ReturnType<typeof DeletePostAC>
     | ReturnType<typeof setNewStatus>
-    | ReturnType<typeof setNewPhoto>;
+    | ReturnType<typeof setNewPhoto>
+    | ReturnType<typeof setProfileEdit>;
 
 export type userProfile = {
     aboutMe: string | null
@@ -143,4 +157,5 @@ export type profilePageType = {
     postsData: Array<postDataType>
     profile: userProfile
     status: string
+    profileEdit: boolean
 }

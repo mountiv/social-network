@@ -14,11 +14,13 @@ export type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string
 }
 
 export const Login = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector<RootStateType, boolean>(state => state.auth.isAuth)
+    const captcha = useSelector<RootStateType, string | null>(state => state.auth.captcha)
 
     const onSubmit = (formData: FormDataType) => {
         dispatch(login({...formData}))
@@ -27,18 +29,26 @@ export const Login = () => {
     if (isAuth) return <Navigate to={'/profile'} replace={true}/>
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginReduxForm captcha={captcha} onSubmit={onSubmit}/>
     </div>
 }
 
 const maxLength30 = maxLengthCreator(30)
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({error, handleSubmit}) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType, { captcha: string | null }> & { captcha: string | null }> = ({
+                                                                                                                           error,
+                                                                                                                           handleSubmit,
+                                                                                                                           captcha
+                                                                                                                       }) => {
     return <form onSubmit={handleSubmit}>
 
         {createField('email', Input, 'Email', [required, maxLength30])}
         {createField('password', Input, 'Password', [required, maxLength30], 'password')}
         {createField('rememberMe', Input, '', [], 'checkbox', 'Remember me')}
+        {captcha && <img src={captcha}/>}
+        {captcha &&
+            createField('captcha', Input, 'Symbols from image', [required])
+        }
         {error &&
             <div className={s.formSummaryError}>
                 {error}
@@ -50,6 +60,6 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({error, handleSubm
     </form>
 }
 
-const LoginReduxForm = reduxForm<FormDataType>({
+const LoginReduxForm = reduxForm<FormDataType, { captcha: string | null }>({
     form: 'login'
 })(LoginForm)

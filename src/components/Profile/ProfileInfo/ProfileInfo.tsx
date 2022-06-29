@@ -9,7 +9,7 @@ import {userProfile} from "../../../redux/ProfilePageReducer";
 
 export const ProfileInfo = (props: ProfileType) => {
     const profile = {...props.profile, contacts: {...props.profile.contacts}, photos: {...props.profile.photos}}
-    const [editMode, setEditMode] = useState(false)
+    // const [editMode, setEditMode] = useState(false)
 
     const onAddPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -19,7 +19,6 @@ export const ProfileInfo = (props: ProfileType) => {
 
     const onSubmit = (formData: { profile: userProfile }) => {
         props.saveSubmit(formData)
-        setEditMode(false)
     }
 
     if (!props.profile) {
@@ -34,19 +33,24 @@ export const ProfileInfo = (props: ProfileType) => {
                 {props.isOwner && <input type="file" onChange={onAddPhoto}/>}
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
                 <div>
-                    {editMode
+                    {props.profileEdit
                         ? <ProfileDataReduxForm
-                            //@ts-ignore
                             initialValues={profile}
+                            //@ts-ignore
                             onSubmit={onSubmit}
                             profile={profile}/>
-                        : <ProfileData profile={profile} isOwner={props.isOwner} toEditMode={() => setEditMode(true)}/>}
-                    <div>
-                        <b>Contacts: </b>{Object.keys(profile.contacts).map(key =>
-                        //@ts-ignore
-                        <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-                    )}
-                    </div>
+                        : <>
+                            <ProfileData profile={profile} isOwner={props.isOwner}
+                                         toEditMode={() => props.setProfileEdit(true)}/>
+                            <div>
+                                <b>Contacts: </b>{Object.keys(profile.contacts).map(key =>
+                                //@ts-ignore
+                                <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+                            )}
+                            </div>
+                        </>
+                    }
+
                 </div>
             </div>
         </div>

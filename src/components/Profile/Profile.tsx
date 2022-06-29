@@ -11,6 +11,8 @@ export type ProfileType = {
     isOwner: boolean
     savePhoto: (photo: any) => void
     saveSubmit: (value: { profile: userProfile }) => void
+    setProfileEdit: (profileEdit: boolean) => void
+    profileEdit: boolean
 }
 
 export const Profile = (props: ProfileType) => {
@@ -24,6 +26,9 @@ export const Profile = (props: ProfileType) => {
                              status={props.status}
                              updateStatus={props.updateStatus}
                              saveSubmit={props.saveSubmit}
+                             setProfileEdit={props.setProfileEdit}
+                             profileEdit={props.profileEdit}
+
                 />
                 :
                 <div className={s.imgWrapper}>

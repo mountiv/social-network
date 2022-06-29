@@ -60,7 +60,7 @@ export const profileApi = {
     },
 
     saveProfile(profile: ProfileDataType) {
-        return instance.put('profile', profile)
+        return instance.put<AuthResponse>('profile', profile)
     }
 }
 
@@ -79,6 +79,12 @@ export const authApi = {
         return instance.delete<AuthResponse>(`auth/login`)
             .then(response => response.data)
     }
+}
 
 
+export const securityApi = {
+    getCaptchaUrl() {
+        return instance.get<{ url: string }>(`security/get-captcha-url`)
+            .then(response => response.data)
+    }
 }

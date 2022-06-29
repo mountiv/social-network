@@ -20,7 +20,7 @@ export const MyPosts = (props: MyPostsType) => {
     }
 
     let postsElement = props.postsData
-        .map(p => <Post message={p.message} likeCount={p.likeCounts}/>)
+        .map(p => <Post key={p.id} message={p.message} likeCount={p.likeCounts}/>)
 
     return (
         <div>
