@@ -10,7 +10,7 @@ export type ProfileType = {
     updateStatus: (status: string) => void
     isOwner: boolean
     savePhoto: (photo: any) => void
-    saveSubmit: (value: { profile: userProfile }) => void
+    saveSubmit: (value: userProfile) => void
     setProfileEdit: (profileEdit: boolean) => void
     profileEdit: boolean
 }

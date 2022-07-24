@@ -108,7 +108,7 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch) => {
     }
 }
 
-export const saveSubmit = (profile: ProfileDataType) => async (dispatch: any, getState: () => RootStateType) => {
+export const saveSubmit = (profile: userProfile) => async (dispatch: any, getState: () => RootStateType) => {
     const userId: number | null = getState().auth.userId
     const response = await profileApi.saveProfile(profile)
     if (response.data.resultCode === 0) {

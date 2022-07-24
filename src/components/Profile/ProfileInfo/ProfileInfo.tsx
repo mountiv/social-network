@@ -7,6 +7,7 @@ import {ProfileData} from "./ProfileData/ProfileData";
 import {ProfileDataReduxForm} from "./ProfileData/ProfileDataForm";
 import {userProfile} from "../../../redux/ProfilePageReducer";
 import s from './ProfileInfo.module.css'
+import {ProfileDataFormik} from "./ProfileData/ProfileDataFormik";
 
 export const ProfileInfo = (props: ProfileType) => {
     const profile = {...props.profile, contacts: {...props.profile.contacts}, photos: {...props.profile.photos}}
@@ -17,8 +18,12 @@ export const ProfileInfo = (props: ProfileType) => {
         }
     }
 
-    const onSubmit = (formData: { profile: userProfile }) => {
+    const onSubmit = (formData: userProfile) => {
         props.saveSubmit(formData)
+    }
+
+    const onClickButton = () => {
+        props.setProfileEdit(!props.profileEdit)
     }
 
     if (!props.profile) {
@@ -35,18 +40,17 @@ export const ProfileInfo = (props: ProfileType) => {
                         Change Avatar
                     </label>
                 }
-                <div>{props.isOwner &&  <button onClick={() => props.setProfileEdit(!props.profileEdit)}>{props.profileEdit ? 'Save Changes' : 'Edit Profile'}</button>}</div>
+                <div>{props.isOwner && <button
+                    onClick={() => props.setProfileEdit(!props.profileEdit)}>{props.profileEdit ? 'Save Changes' : 'Edit Profile'}</button>}</div>
             </div>
             <div>
                 <b>{profile.fullName}</b>
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
                 <br/>
                 {props.profileEdit
-                    ? <ProfileDataReduxForm
+                    ? <ProfileDataFormik
                         initialValues={profile}
-                        //@ts-ignore
-                        onSubmit={onSubmit}
-                        profile={profile}/>
+                        onSubmit={onSubmit}/>
                     : <>
                         <ProfileData profile={profile} isOwner={props.isOwner}/>
                         <div>

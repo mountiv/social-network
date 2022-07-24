@@ -24,7 +24,7 @@ export type ProfileType = {
     isAuth: boolean
     authorizedUserId: number
     savePhoto: (photo: string) => void
-    saveSubmit: (value: { profile: userProfile }) => void
+    saveSubmit: (value:  userProfile ) => void
     setProfileEdit: (profileEdit: boolean) => void
     profileEdit: boolean
 }
