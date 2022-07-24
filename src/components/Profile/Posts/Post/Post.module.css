@@ -1,5 +1,17 @@
-.item img{
+.photoMessage img {
     width: 50px;
     border-radius: 30px;
+    margin-right: 10px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.photoMessage {
+    display: flex;
+    align-items: center;
 }
 

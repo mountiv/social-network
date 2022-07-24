@@ -1,5 +1,31 @@
-.imgWrapper img{
+.imgWrapper img {
     width: 100px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.avaBlock {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+}
+
+.ava {
+    max-width: 250px;
+}
+
+.inputPhoto {
+    display: none;
+}
+
+.labelPhoto {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }
 
 

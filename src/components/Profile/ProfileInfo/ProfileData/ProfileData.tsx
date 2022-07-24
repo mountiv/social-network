@@ -4,13 +4,8 @@ import React from "react";
 export const ProfileData = ({
                                 profile,
                                 ...props
-                            }: { profile: userProfile, toEditMode: () => void, isOwner: boolean }) => {
+                            }: { profile: userProfile, isOwner: boolean }) => {
     return <>
-        <div>{props.isOwner && <button onClick={props.toEditMode}>Edit</button>}</div>
-        <div>
-            <b>Full name: </b>
-            {profile.fullName}
-        </div>
         <div><b>About me: </b>{profile.aboutMe}</div>
         <div>
             <b>Looking for a job: </b>

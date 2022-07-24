@@ -2,7 +2,7 @@ import React, {ComponentType} from "react";
 import {Header} from "./Header";
 import {connect} from "react-redux";
 import {RootStateType} from "../../redux/reduxStore";
-import {authMe, logout} from "../../redux/AuthReducer";
+import {logout} from "../../redux/AuthReducer";
 import {compose} from "redux";
 
 export type AuthResponse = {

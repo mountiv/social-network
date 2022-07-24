@@ -6,10 +6,10 @@ import {Contact} from "./Contacts/Contacts";
 import {ProfileData} from "./ProfileData/ProfileData";
 import {ProfileDataReduxForm} from "./ProfileData/ProfileDataForm";
 import {userProfile} from "../../../redux/ProfilePageReducer";
+import s from './ProfileInfo.module.css'
 
 export const ProfileInfo = (props: ProfileType) => {
     const profile = {...props.profile, contacts: {...props.profile.contacts}, photos: {...props.profile.photos}}
-    // const [editMode, setEditMode] = useState(false)
 
     const onAddPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -26,32 +26,38 @@ export const ProfileInfo = (props: ProfileType) => {
     }
 
     return (
-        <div>
+        <div className={s.wrapper}>
+            <div className={s.avaBlock}>
+                {profile.photos.large && <img className={s.ava} alt={'Photo'} src={profile.photos.large}/>}
+                {props.isOwner &&
+                    <label className={s.labelPhoto}>
+                        <input type="file" onChange={onAddPhoto} className={s.inputPhoto}/>
+                        Change Avatar
+                    </label>
+                }
+                <div>{props.isOwner &&  <button onClick={() => props.setProfileEdit(!props.profileEdit)}>{props.profileEdit ? 'Save Changes' : 'Edit Profile'}</button>}</div>
+            </div>
             <div>
-                {profile.photos.large && <img alt={'Photo'} src={profile.photos.large}/>}
-                {/*{profile.photos.small && <img src={profile.photos.small}/>}*/}
-                {props.isOwner && <input type="file" onChange={onAddPhoto}/>}
+                <b>{profile.fullName}</b>
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
-                <div>
-                    {props.profileEdit
-                        ? <ProfileDataReduxForm
-                            initialValues={profile}
+                <br/>
+                {props.profileEdit
+                    ? <ProfileDataReduxForm
+                        initialValues={profile}
+                        //@ts-ignore
+                        onSubmit={onSubmit}
+                        profile={profile}/>
+                    : <>
+                        <ProfileData profile={profile} isOwner={props.isOwner}/>
+                        <div>
+                            <b>Contacts: </b>{Object.keys(profile.contacts).map(key =>
                             //@ts-ignore
-                            onSubmit={onSubmit}
-                            profile={profile}/>
-                        : <>
-                            <ProfileData profile={profile} isOwner={props.isOwner}
-                                         toEditMode={() => props.setProfileEdit(true)}/>
-                            <div>
-                                <b>Contacts: </b>{Object.keys(profile.contacts).map(key =>
-                                //@ts-ignore
-                                <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-                            )}
-                            </div>
-                        </>
-                    }
+                            <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+                        )}
+                        </div>
+                    </>
+                }
 
-                </div>
             </div>
         </div>
     )

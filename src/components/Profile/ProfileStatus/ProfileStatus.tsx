@@ -19,18 +19,11 @@ export const ProfileStatus = (props: ProfileStatusType) => {
         setEditMode(false)
         props.updateStatus(status)
     }
-    //
+
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
     }
-    //
-    // componentDidUpdate(prevProps: ProfileStatusType, prevState: { status: string, editMode: boolean }) {
-    //     if (prevProps.status !== this.props.status) {
-    //         this.setState({
-    //             status: this.props.status
-    //         })
-    //     }
-    // }
+
 
     return (
         <div>
@@ -38,7 +31,7 @@ export const ProfileStatus = (props: ProfileStatusType) => {
             {!editMode
                 ?
                 <div>
-                    <b>Status: </b><span onDoubleClick={() => setEditMode(true)}>{status || '---------'}</span>
+                    <span onDoubleClick={() => setEditMode(true)}>{status || '---------'}</span>
                 </div>
                 :
                 <div>

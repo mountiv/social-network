@@ -46,9 +46,9 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem(<Link to="/profile">Profile</Link>, '1',  <UserOutlined/>),
-    getItem(<Link to="/dialogs">Dialogs</Link>, '2', <MessageOutlined />),
-    getItem(<Link to="/users">Users</Link>, '3',<TeamOutlined />)
+    getItem(<Link to="/profile">Profile</Link>, '1', <UserOutlined/>),
+    getItem(<Link to="/dialogs">Dialogs</Link>, '2', <MessageOutlined/>),
+    getItem(<Link to="/users">Users</Link>, '3', <TeamOutlined/>)
 ];
 
 type AppPropsType = AppType & {
@@ -69,10 +69,7 @@ const App = (props: AppPropsType) => {
     return (
         <Layout style={{minHeight: '100vh'}}>
             <Header className="site-layout-background" style={{padding: 0}}>
-                {/*<Breadcrumb style={{margin: '16px 0', color: 'white'}}>*/}
-                {/*    <Breadcrumb.Item>User</Breadcrumb.Item>*/}
-                {/*    <Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
-                {/*</Breadcrumb>*/}
+                <HeaderContainer/>
             </Header>
             <Layout className="site-layout">
                 <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
