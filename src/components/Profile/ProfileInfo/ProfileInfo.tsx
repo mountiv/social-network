@@ -1,10 +1,9 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {Preloader} from "../../common/Preloader/Preloader";
 import {ProfileType} from "../Profile";
 import {ProfileStatus} from "../ProfileStatus/ProfileStatus";
 import {Contact} from "./Contacts/Contacts";
 import {ProfileData} from "./ProfileData/ProfileData";
-import {ProfileDataReduxForm} from "./ProfileData/ProfileDataForm";
 import {userProfile} from "../../../redux/ProfilePageReducer";
 import s from './ProfileInfo.module.css'
 import {ProfileDataFormik} from "./ProfileData/ProfileDataFormik";
@@ -54,7 +53,7 @@ export const ProfileInfo = (props: ProfileType) => {
                     : <>
                         <ProfileData profile={profile} isOwner={props.isOwner}/>
                         <div>
-                            <b>Contacts: </b>{Object.keys(profile.contacts).map(key =>
+                            <b>Contacts: </b>{Object.keys(profile.contacts).map((key) =>
                             //@ts-ignore
                             <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
                         )}

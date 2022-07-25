@@ -1,13 +1,7 @@
 import React from "react";
-import {InjectedFormProps} from "redux-form/lib/reduxForm";
-import {reduxForm} from "redux-form";
-import {createField, Input, Textarea} from "../../../common/formsControls/FormControls";
 import {userProfile} from "../../../../redux/ProfilePageReducer";
-import s from "../../../common/formsControls/FormControls.module.css";
 import {useFormik} from "formik";
-import {login} from "../../../../redux/AuthReducer";
-import {FormDataType} from "../../../Login/Login";
-import {Checkbox, FormControlLabel, FormGroup, TextField} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, FormGroup, TextField} from "@mui/material";
 
 export type ProfileDataType = {
     fullName: string
@@ -19,7 +13,14 @@ export type ProfileDataType = {
 export const ProfileDataFormik = (props: { initialValues: userProfile, onSubmit: (formData: userProfile) => void }) => {
     const formik = useFormik({
         initialValues: props.initialValues,
-        onSubmit: props.onSubmit
+        onSubmit: props.onSubmit,
+        // validate: (values) => {
+        //     const errors = {} as userProfile;
+        //     if (Object.keys(values.contacts).map(key => !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(key))) {
+        //         // Object.keys(errors.contacts).map(key => (errors.contacts?[key] = 'Invalid contact'));
+        //         errors.contacts.vk = 'Invalid value'
+        //     }
+        // },
     })
 
     return <form onSubmit={formik.handleSubmit}>
@@ -47,16 +48,20 @@ export const ProfileDataFormik = (props: { initialValues: userProfile, onSubmit:
 
             <div>
                 <b>Contacts: </b>{Object.keys(props.initialValues.contacts).map(key => {
-                    return <div key={key}>
-                        <TextField
-                            label={key}
-                            margin="normal"
-                            {...formik.getFieldProps('contacts.' + key)}
-                        />
-                    </div>
-                }
-            )}
+                return <div key={key}>
+                    <TextField
+                        label={key}
+                        margin="normal"
+                        {...formik.getFieldProps('contacts.' + key)}
+                    />
+                    {/*{formik.touched.contacts?[key] && formik.errors.contacts?[key] &&*/}
+                    {/*    <div style={{color: 'red'}}>{formik.errors.contacts}</div>}*/}
+                </div>
+            })}
             </div>
+            <Button type={'submit'} variant={'contained'} color={'primary'}>
+                Save
+            </Button>
         </FormGroup>
     </form>
 }
