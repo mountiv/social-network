@@ -1,4 +1,6 @@
 import {authMe} from "./AuthReducer";
+import {ErrorResponseType, handleNetworkError} from "../utils/errorUtils";
+import {AxiosError} from "axios";
 
 //initial state
 const initialState = {
@@ -30,7 +32,12 @@ export const appReducer = (state: AppType = initialState, action: AppActionsType
 
 //thunk
 export const initializeApp = () => async (dispatch: any) => {
-    await dispatch(authMe())
-    dispatch(initializingSuccess())
+    try {
+        await dispatch(authMe())
+        dispatch(initializingSuccess())
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
+    }
 
 }

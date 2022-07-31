@@ -8,6 +8,7 @@ import {userProfile} from "../../../redux/ProfilePageReducer";
 import s from './ProfileInfo.module.css'
 import {ProfileDataFormik} from "./ProfileData/ProfileDataFormik";
 
+
 export const ProfileInfo = (props: ProfileType) => {
     const profile = {...props.profile, contacts: {...props.profile.contacts}, photos: {...props.profile.photos}}
 
@@ -39,8 +40,8 @@ export const ProfileInfo = (props: ProfileType) => {
                         Change Avatar
                     </label>
                 }
-                <div>{props.isOwner && <button
-                    onClick={() => props.setProfileEdit(!props.profileEdit)}>{props.profileEdit ? 'Save Changes' : 'Edit Profile'}</button>}</div>
+                {!props.profileEdit && <div>{props.isOwner && <button
+                    onClick={() => props.setProfileEdit(!props.profileEdit)}>{'Edit Profile'}</button>}</div>}
             </div>
             <div>
                 <b>{profile.fullName}</b>

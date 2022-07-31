@@ -14,15 +14,18 @@ export const ProfileDataFormik = (props: { initialValues: userProfile, onSubmit:
     const formik = useFormik({
         initialValues: props.initialValues,
         onSubmit: props.onSubmit,
-        // validate: (values) => {
-        //     const errors = {} as userProfile;
-        //     if (Object.keys(values.contacts).map(key => !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(key))) {
-        //         // Object.keys(errors.contacts).map(key => (errors.contacts?[key] = 'Invalid contact'));
-        //         errors.contacts.vk = 'Invalid value'
-        //     }
-        // },
+        validate: (values) => {
+            const errors = {contacts: {}} as { contacts: { [key: string]: string } };
+            Object.entries(values.contacts).forEach(([key, value]) => {
+                if (value && (/^[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm ||
+                    /@([A-Za-z0-9_]{1,15})/).test(value)) {
+                    errors.contacts[key] = 'Invalid contact'
+                }
+            })
+            return errors
+        },
     })
-
+    console.log(formik.errors)
     return <form onSubmit={formik.handleSubmit}>
         <FormGroup>
             <TextField
@@ -47,15 +50,15 @@ export const ProfileDataFormik = (props: { initialValues: userProfile, onSubmit:
             />
 
             <div>
-                <b>Contacts: </b>{Object.keys(props.initialValues.contacts).map(key => {
+                <b>Contacts: </b>{(Object.keys(props.initialValues.contacts) as (keyof typeof props.initialValues.contacts)[]).map((key) => {
                 return <div key={key}>
                     <TextField
                         label={key}
                         margin="normal"
                         {...formik.getFieldProps('contacts.' + key)}
                     />
-                    {/*{formik.touched.contacts?[key] && formik.errors.contacts?[key] &&*/}
-                    {/*    <div style={{color: 'red'}}>{formik.errors.contacts}</div>}*/}
+                    {formik.errors.contacts && formik.errors.contacts[key] && formik.touched.contacts && formik.touched.contacts[key] &&
+                        <div style={{color: 'red'}}>{formik.errors.contacts[key]}</div>}
                 </div>
             })}
             </div>

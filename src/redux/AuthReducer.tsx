@@ -52,7 +52,7 @@ export const authReducer = (state: AuthType = initialState, action: AuthActionsT
 }
 
 //thunks
-export const authMe = () => (dispatch: Dispatch) => {
+export const authMe = () => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     return authApi.authMe()
         .then(response => {
