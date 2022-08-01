@@ -7,6 +7,7 @@ import {ProfileData} from "./ProfileData/ProfileData";
 import {userProfile} from "../../../redux/ProfilePageReducer";
 import s from './ProfileInfo.module.css'
 import {ProfileDataFormik} from "./ProfileData/ProfileDataFormik";
+import {toast, ToastContainer} from "react-toastify";
 
 
 export const ProfileInfo = (props: ProfileType) => {
@@ -20,10 +21,6 @@ export const ProfileInfo = (props: ProfileType) => {
 
     const onSubmit = (formData: userProfile) => {
         props.saveSubmit(formData)
-    }
-
-    const onClickButton = () => {
-        props.setProfileEdit(!props.profileEdit)
     }
 
     if (!props.profile) {

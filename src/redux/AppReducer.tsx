@@ -1,6 +1,6 @@
-import {authMe} from "./AuthReducer";
-import {ErrorResponseType, handleNetworkError} from "../utils/errorUtils";
+import {authMe, ErrorResponseType} from "./AuthReducer";
 import {AxiosError} from "axios";
+import {handleNetworkError} from "../utils/errorUtils";
 
 //initial state
 const initialState = {

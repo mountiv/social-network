@@ -1,9 +1,11 @@
 import {postDataType} from "./state";
 import {Dispatch} from "redux";
 import {profileApi} from "../api/api";
-import {ProfileDataType} from "../components/Profile/ProfileInfo/ProfileData/ProfileDataForm";
 import {RootStateType} from "./reduxStore";
-import {stopSubmit} from "redux-form";
+import {AxiosError} from "axios";
+import {handleNetworkError} from "../utils/errorUtils";
+import {ErrorResponseType} from "./AuthReducer";
+import {toast} from "react-toastify";
 
 //initial state
 const initialState: profilePageType = {
@@ -85,39 +87,64 @@ export const ProfilePageReducer = (state = initialState, action: ProfileActionsT
 
 //thunks
 export const getUserProfile = (userId: number | null) => async (dispatch: Dispatch) => {
-    let response = await profileApi.getUserProfile(userId)
-    dispatch(setUserProfile(response))
+    try {
+        let response = await profileApi.getUserProfile(userId)
+        dispatch(setUserProfile(response))
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
+    }
 }
 
 export const getUserStatus = (userId: number | null) => async (dispatch: Dispatch) => {
-    let response = await profileApi.getUserStatus(userId)
-    dispatch(setUserStatus(response))
+    try {
+        let response = await profileApi.getUserStatus(userId)
+        dispatch(setUserStatus(response))
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
+    }
 }
 
 export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
-    let response = await profileApi.updateUserStatus(status)
-    if (response.data.resultCode === 0) {
-        dispatch(setNewStatus(status))
+    try {
+        let response = await profileApi.updateUserStatus(status)
+        if (response.data.resultCode === 0) {
+            dispatch(setNewStatus(status))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 
 export const savePhoto = (photo: string) => async (dispatch: Dispatch) => {
-    let response = await profileApi.updatePhoto(photo)
-    if (response.data.resultCode === 0) {
-        dispatch(setNewPhoto({large: photo, small: ''}))
+    try {
+        let response = await profileApi.updatePhoto(photo)
+        if (response.data.resultCode === 0) {
+            dispatch(setNewPhoto({large: photo, small: ''}))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 
 export const saveSubmit = (profile: userProfile) => async (dispatch: any, getState: () => RootStateType) => {
     const userId: number | null = getState().auth.userId
-    const response = await profileApi.saveProfile(profile)
-    if (response.data.resultCode === 0) {
-        dispatch(getUserProfile(userId))
-        dispatch(setProfileEdit(false))
-    } else {
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
-        dispatch(stopSubmit('profileData', {_error: message}))
-        dispatch(setProfileEdit(true))
+    try {
+        const response = await profileApi.saveProfile(profile)
+        if (response.data.resultCode === 0) {
+            dispatch(getUserProfile(userId))
+            dispatch(setProfileEdit(false))
+        } else {
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+            toast.error(message)
+            // dispatch(setProfileEdit(true))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 

@@ -1,9 +1,10 @@
-import {ActionsType} from "./reduxStore";
 import {TOGGLE_IS_FETCHING, toggleIsFetching} from "./UsersPageReducer";
 import {Dispatch} from "redux";
 import {authApi, securityApi} from "../api/api";
 import {FormDataType} from "../components/Login/Login";
 import {stopSubmit} from "redux-form";
+import {AxiosError} from "axios";
+import {handleNetworkError} from "../utils/errorUtils";
 
 //initial state
 const initialState: AuthType = {
@@ -54,37 +55,50 @@ export const authReducer = (state: AuthType = initialState, action: AuthActionsT
 //thunks
 export const authMe = () => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    return authApi.authMe()
-        .then(response => {
-            dispatch(toggleIsFetching(false))
-            if (response.resultCode === 0) {
-                const {id, email, login} = response.data
-                dispatch(setUserData(id, email, login, true))
-            }
-        })
+    try {
+        const response = await authApi.authMe()
+        dispatch(toggleIsFetching(false))
+        if (response.resultCode === 0) {
+            const {id, email, login} = response.data
+            dispatch(setUserData(id, email, login, true))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
+    }
 }
 
 export const login = (formData: FormDataType) => async (dispatch: any) => {
     dispatch(toggleIsFetching(true))
-    const response = await authApi.login(formData)
-    dispatch(toggleIsFetching(false))
-    if (response.resultCode === 0) {
-        dispatch(authMe())
-    } else {
-        if(response.resultCode === 10) {
-            dispatch(getCaptchaUrl())
+    try {
+        const response = await authApi.login(formData)
+        dispatch(toggleIsFetching(false))
+        if (response.resultCode === 0) {
+            dispatch(authMe())
+        } else {
+            if (response.resultCode === 10) {
+                dispatch(getCaptchaUrl())
+            }
+            const message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+            dispatch(stopSubmit('login', {_error: message}))
         }
-        const message = response.messages.length > 0 ? response.messages[0] : 'Some error'
-        dispatch(stopSubmit('login', {_error: message}))
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 
 export const logout = () => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    const response = await authApi.logout()
-    dispatch(toggleIsFetching(false))
-    if (response.resultCode === 0) {
-        dispatch(setUserData(null, null, null, false))
+    try {
+        const response = await authApi.logout()
+        dispatch(toggleIsFetching(false))
+        if (response.resultCode === 0) {
+            dispatch(setUserData(null, null, null, false))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 
@@ -108,5 +122,9 @@ export type AuthActionsType = ReturnType<typeof setFormData>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof getCaptchaUrlSuccess>
 
+
+export type ErrorResponseType = {
+    messages?: Array<string> | null;
+};
 
 

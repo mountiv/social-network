@@ -1,31 +1,66 @@
 import React from "react";
-import s from './Header.module.css'
 import {Link} from "react-router-dom";
-import {Button} from "antd";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import {useDispatch, useSelector} from "react-redux";
+import {RootStateType} from "../../redux/reduxStore";
+import {logout} from "../../redux/AuthReducer";
 
-type HeaderType = {
-    isAuth: boolean
-    login: string | null
-    logout: () => void
-}
+export const Header = () => {
+    const isAuth = useSelector<RootStateType, boolean>(state => state.auth.isAuth)
+    const avatar = useSelector<RootStateType, string | null>(state => state.profilePage?.profile?.photos?.large)
 
-export const Header = (props: HeaderType) => {
+    const dispatch = useDispatch()
+
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+    const onLogoutClick = () => {
+        dispatch(logout())
+        handleCloseUserMenu()
+    }
+
     return (
-        <header className={s.header}>
-            <div>
-                <img className={s.logo}
-                     src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF-_CfVP6eBNTbM1cyAyO9JjgbWPaix_oTJFhsXmnboTlnP0mL3RJHo0JVQYG9giJLJwc&usqp=CAU'
-                     alt='Logo'/>
-            </div>
-            <div>
-                {/*<div className={s.loginBlock}>*/}
-                {props.isAuth
-                    ? <div>
-                        <span className={s.login}>{props.login}</span>
-                        <Button type={'primary'} onClick={props.logout}>Log out</Button>
-                    </div>
-                    : <Link to='/login'>Login</Link>
-                }
-            </div>
-        </header>)
+        <Box sx={{flexGrow: 0}}>
+            <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                    <Avatar alt="Avatar" src={(isAuth && avatar) ? avatar :"/static/images/avatar/2.jpg"}/>
+
+                </IconButton>
+            </Tooltip>
+            <Menu
+                sx={{mt: '45px'}}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+            >
+                <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center"><Link to="/profile">Profile</Link></Typography>
+                </MenuItem>
+                <MenuItem onClick={onLogoutClick}>
+                    <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+            </Menu>
+        </Box>
+    )
 }

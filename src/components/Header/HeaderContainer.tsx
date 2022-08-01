@@ -25,7 +25,9 @@ export type AuthContainerType = {
 
 export class HeaderContainer extends React.Component<AuthContainerType> {
     render() {
-        return <Header isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logout}/>
+        return <Header
+            // isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logout}
+        />
     }
 }
 

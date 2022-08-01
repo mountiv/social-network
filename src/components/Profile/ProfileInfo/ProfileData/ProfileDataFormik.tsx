@@ -14,18 +14,18 @@ export const ProfileDataFormik = (props: { initialValues: userProfile, onSubmit:
     const formik = useFormik({
         initialValues: props.initialValues,
         onSubmit: props.onSubmit,
-        validate: (values) => {
-            const errors = {contacts: {}} as { contacts: { [key: string]: string } };
-            Object.entries(values.contacts).forEach(([key, value]) => {
-                if (value && (/^[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm ||
-                    /@([A-Za-z0-9_]{1,15})/).test(value)) {
-                    errors.contacts[key] = 'Invalid contact'
-                }
-            })
-            return errors
-        },
+        // validate: (values) => {
+        //     const errors = {contacts: {}} as { contacts: { [key: string]: string } };
+        //     Object.entries(values.contacts).forEach(([key, value]) => {
+        //         if (value && (/^[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm ||
+        //             /@([A-Za-z0-9_]{1,15})/).test(value)) {
+        //             errors.contacts[key] = 'Invalid contact'
+        //         }
+        //     })
+        //     return errors
+        // },
     })
-    console.log(formik.errors)
+
     return <form onSubmit={formik.handleSubmit}>
         <FormGroup>
             <TextField
@@ -57,8 +57,8 @@ export const ProfileDataFormik = (props: { initialValues: userProfile, onSubmit:
                         margin="normal"
                         {...formik.getFieldProps('contacts.' + key)}
                     />
-                    {formik.errors.contacts && formik.errors.contacts[key] && formik.touched.contacts && formik.touched.contacts[key] &&
-                        <div style={{color: 'red'}}>{formik.errors.contacts[key]}</div>}
+                    {/*{formik.errors.contacts && formik.errors.contacts[key] && formik.touched.contacts && formik.touched.contacts[key] &&*/}
+                    {/*    <div style={{color: 'red'}}>{formik.errors.contacts[key]}</div>}*/}
                 </div>
             })}
             </div>

@@ -1,5 +1,8 @@
 import {Dispatch} from "redux";
 import {usersApi} from "../api/api";
+import {AxiosError} from "axios";
+import {handleNetworkError} from "../utils/errorUtils";
+import {ErrorResponseType} from "./AuthReducer";
 
 //initial state
 const initialState: UsersState = {
@@ -74,28 +77,43 @@ export const UsersPageReducer = (state: UsersState = initialState, action: Users
 export const getUsers = (page: number, pageSize: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
-    let response = await usersApi.getUsers(page, pageSize)
-    dispatch(toggleIsFetching(false))
-    dispatch(setUsers(response.items))
-    dispatch(setTotalUsersCount(response.totalCount ? response.totalCount : 0))
+    try {
+        let response = await usersApi.getUsers(page, pageSize)
+        dispatch(toggleIsFetching(false))
+        dispatch(setUsers(response.items))
+        dispatch(setTotalUsersCount(response.totalCount ? response.totalCount : 0))
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
+    }
 
 }
 
 export const unfollow = (id: number) => async (dispatch: Dispatch) => {
     dispatch(toggleFollowingProgress(true, id))
-    let response = await usersApi.unfollow(id)
-    if (response.resultCode === 0) {
-        dispatch(unfollowAccept(id))
-        dispatch(toggleFollowingProgress(false, id))
+    try {
+        let response = await usersApi.unfollow(id)
+        if (response.resultCode === 0) {
+            dispatch(unfollowAccept(id))
+            dispatch(toggleFollowingProgress(false, id))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 
 export const follow = (id: number) => async (dispatch: Dispatch) => {
     dispatch(toggleFollowingProgress(true, id))
-    let response = await usersApi.follow(id)
-    if (response.resultCode === 0) {
-        dispatch(followAccept(id))
-        dispatch(toggleFollowingProgress(false, id))
+    try {
+        let response = await usersApi.follow(id)
+        if (response.resultCode === 0) {
+            dispatch(followAccept(id))
+            dispatch(toggleFollowingProgress(false, id))
+        }
+    } catch (e) {
+        const err = e as AxiosError<ErrorResponseType>;
+        handleNetworkError(err);
     }
 }
 
