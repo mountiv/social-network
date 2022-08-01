@@ -3,9 +3,8 @@ import {Dispatch} from "redux";
 import {profileApi} from "../api/api";
 import {RootStateType} from "./reduxStore";
 import {AxiosError} from "axios";
-import {handleNetworkError} from "../utils/errorUtils";
 import {ErrorResponseType} from "./AuthReducer";
-import {toast} from "react-toastify";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 //initial state
 const initialState: profilePageType = {
@@ -92,7 +91,7 @@ export const getUserProfile = (userId: number | null) => async (dispatch: Dispat
         dispatch(setUserProfile(response))
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -102,7 +101,7 @@ export const getUserStatus = (userId: number | null) => async (dispatch: Dispatc
         dispatch(setUserStatus(response))
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -111,10 +110,12 @@ export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
         let response = await profileApi.updateUserStatus(status)
         if (response.data.resultCode === 0) {
             dispatch(setNewStatus(status))
+        } else {
+            handleServerAppError(response.data, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -123,10 +124,12 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch) => {
         let response = await profileApi.updatePhoto(photo)
         if (response.data.resultCode === 0) {
             dispatch(setNewPhoto({large: photo, small: ''}))
+        } else {
+            handleServerAppError(response.data, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -138,13 +141,11 @@ export const saveSubmit = (profile: userProfile) => async (dispatch: any, getSta
             dispatch(getUserProfile(userId))
             dispatch(setProfileEdit(false))
         } else {
-            let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
-            toast.error(message)
-            // dispatch(setProfileEdit(true))
+            handleServerAppError(response.data, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 

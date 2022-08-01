@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
 import {usersApi} from "../api/api";
 import {AxiosError} from "axios";
-import {handleNetworkError} from "../utils/errorUtils";
 import {ErrorResponseType} from "./AuthReducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 //initial state
 const initialState: UsersState = {
@@ -84,7 +84,7 @@ export const getUsers = (page: number, pageSize: number) => async (dispatch: Dis
         dispatch(setTotalUsersCount(response.totalCount ? response.totalCount : 0))
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 
 }
@@ -96,10 +96,12 @@ export const unfollow = (id: number) => async (dispatch: Dispatch) => {
         if (response.resultCode === 0) {
             dispatch(unfollowAccept(id))
             dispatch(toggleFollowingProgress(false, id))
+        } else {
+            handleServerAppError(response.data, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -110,10 +112,12 @@ export const follow = (id: number) => async (dispatch: Dispatch) => {
         if (response.resultCode === 0) {
             dispatch(followAccept(id))
             dispatch(toggleFollowingProgress(false, id))
+        } else {
+            handleServerAppError(response.data, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 

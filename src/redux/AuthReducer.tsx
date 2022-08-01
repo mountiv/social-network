@@ -2,9 +2,8 @@ import {TOGGLE_IS_FETCHING, toggleIsFetching} from "./UsersPageReducer";
 import {Dispatch} from "redux";
 import {authApi, securityApi} from "../api/api";
 import {FormDataType} from "../components/Login/Login";
-import {stopSubmit} from "redux-form";
 import {AxiosError} from "axios";
-import {handleNetworkError} from "../utils/errorUtils";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 //initial state
 const initialState: AuthType = {
@@ -61,10 +60,12 @@ export const authMe = () => async (dispatch: Dispatch) => {
         if (response.resultCode === 0) {
             const {id, email, login} = response.data
             dispatch(setUserData(id, email, login, true))
+        } else {
+            handleServerAppError(response, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -78,13 +79,13 @@ export const login = (formData: FormDataType) => async (dispatch: any) => {
         } else {
             if (response.resultCode === 10) {
                 dispatch(getCaptchaUrl())
+            } else {
+                handleServerAppError(response, dispatch)
             }
-            const message = response.messages.length > 0 ? response.messages[0] : 'Some error'
-            dispatch(stopSubmit('login', {_error: message}))
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 
@@ -95,10 +96,12 @@ export const logout = () => async (dispatch: Dispatch) => {
         dispatch(toggleIsFetching(false))
         if (response.resultCode === 0) {
             dispatch(setUserData(null, null, null, false))
+        } else {
+            handleServerAppError(response, dispatch)
         }
     } catch (e) {
         const err = e as AxiosError<ErrorResponseType>;
-        handleNetworkError(err);
+        handleServerNetworkError(err, dispatch);
     }
 }
 

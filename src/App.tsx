@@ -11,9 +11,10 @@ import {withRouter} from "./components/common/withRouter/withRouterHOC";
 import {AppType, initializeApp} from "./redux/AppReducer";
 import {RootStateType} from "./redux/reduxStore";
 import {Preloader} from "./components/common/Preloader/Preloader";
-import {ToastContainer} from "react-toastify";
 import ResponsiveAppBar from "./components/NavBar/AppBar";
 import Container from "@mui/material/Container";
+import {CircularProgress} from "@mui/material";
+import {ErrorSnackbar} from "./utils/ErrorSnackbar";
 
 
 const Dialogs = lazy(() => import( "./components/Dialogs/DialogsContainer"));
@@ -32,7 +33,10 @@ const App = (props: AppPropsType) => {
 
 
     if (!props.initialized) {
-        return <Preloader/>
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
     }
     return (
         <div>
@@ -51,7 +55,7 @@ const App = (props: AppPropsType) => {
                         <Route path='/login' element={<Login/>}/>
                     </Routes>
                 </Suspense>
-                <ToastContainer position="bottom-left" hideProgressBar/>
+                <ErrorSnackbar/>
             </Container>
         </div>
     );
@@ -59,7 +63,8 @@ const App = (props: AppPropsType) => {
 
 const mapStateToProps = (state: RootStateType): AppType => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        error: state.app.error
     }
 }
 

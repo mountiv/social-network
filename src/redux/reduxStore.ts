@@ -7,6 +7,7 @@ import {UsersActionsType, UsersPageReducer} from "./UsersPageReducer";
 import {AuthActionsType, authReducer} from "./AuthReducer";
 import {reducer as formReducer} from 'redux-form'
 import {AppActionsType, appReducer} from "./AppReducer";
+import {TypedUseSelectorHook, useSelector} from "react-redux";
 
 export type ActionsType = ProfileActionsType
     | AppActionsType
@@ -28,6 +29,7 @@ let rootReducer = combineReducers({
 //@ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+export const useAppSelector: TypedUseSelectorHook<RootStateType> = useSelector
 
 export type RootStateType = ReturnType<typeof rootReducer>
 export type DispatchType = typeof store.dispatch

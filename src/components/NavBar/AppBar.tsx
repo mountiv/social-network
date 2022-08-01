@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {Header} from "../Header/Header";
 
-const pages = [<Link to="/users">Users</Link>, <Link to="/dialogs">Dialogs</Link>];
+const pages = [<NavLink to="/users">Users</NavLink>, <NavLink to="/dialogs">Dialogs</NavLink>];
 
 const ResponsiveAppBar = () => {
 
