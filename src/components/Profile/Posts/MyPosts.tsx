@@ -1,21 +1,19 @@
 import React, {ChangeEvent, useState} from "react";
 import {Post} from "./Post/Post";
 import {postDataType} from "../../../redux/state";
-import {Button, Input} from 'antd';
 import s from "./MyPosts.module.css"
+import {Button, TextField} from "@mui/material";
 
 type MyPostsType = {
     postsData: Array<postDataType>
     addPostButton: (text: string) => void
 }
 
-const {TextArea} = Input;
-
 export const MyPosts = (props: MyPostsType) => {
     const [post, setPost] = useState<string>('')
 
     const addNewPost = () => {
-        if(post) props.addPostButton(post)
+        if (post) props.addPostButton(post)
         setPost('')
     }
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,13 +27,15 @@ export const MyPosts = (props: MyPostsType) => {
         <div className={s.container}>
             <div>
                 <h3 className={s.header}>My Posts</h3>
-                <TextArea placeholder={'Enter your post'}
-                          value={post}
-                          name={'newPost'} showCount maxLength={50}
-                          style={{maxWidth: 400}}
-                          onChange={onPostChange}
-                />
-                <Button disabled={!post} type={'primary'} onClick={addNewPost}>Add Post</Button>
+                <div className={s.addPost}>
+                    <TextField placeholder={'Enter your post'}
+                               value={post}
+                               name={'newPost'}
+                               style={{maxWidth: 400}}
+                               onChange={onPostChange}
+                    />
+                    <Button variant="contained" disabled={!post} onClick={addNewPost}>Add Post</Button>
+                </div>
             </div>
             <div className={s.posts}>
                 {postsElement}

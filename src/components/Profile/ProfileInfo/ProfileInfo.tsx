@@ -1,13 +1,11 @@
 import React, {ChangeEvent} from "react";
-import {Preloader} from "../../common/Preloader/Preloader";
 import {ProfileType} from "../Profile";
 import {ProfileStatus} from "../ProfileStatus/ProfileStatus";
-import {Contact} from "./Contacts/Contacts";
 import {ProfileData} from "./ProfileData/ProfileData";
 import {userProfile} from "../../../redux/ProfilePageReducer";
 import s from './ProfileInfo.module.css'
 import {ProfileDataFormik} from "./ProfileData/ProfileDataFormik";
-import {toast, ToastContainer} from "react-toastify";
+import {Button, CircularProgress} from "@mui/material";
 
 
 export const ProfileInfo = (props: ProfileType) => {
@@ -24,7 +22,10 @@ export const ProfileInfo = (props: ProfileType) => {
     }
 
     if (!props.profile) {
-        return <Preloader/>
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
     }
 
     return (
@@ -37,8 +38,8 @@ export const ProfileInfo = (props: ProfileType) => {
                         Change Avatar
                     </label>
                 }
-                {!props.profileEdit && <div>{props.isOwner && <button
-                    onClick={() => props.setProfileEdit(!props.profileEdit)}>{'Edit Profile'}</button>}</div>}
+                {!props.profileEdit && <div>{props.isOwner && <Button variant="contained"
+                                                                      onClick={() => props.setProfileEdit(!props.profileEdit)}>{'Edit Profile'}</Button>}</div>}
             </div>
             <div>
                 <b>{profile.fullName}</b>
@@ -50,12 +51,6 @@ export const ProfileInfo = (props: ProfileType) => {
                         onSubmit={onSubmit}/>
                     : <>
                         <ProfileData profile={profile} isOwner={props.isOwner}/>
-                        <div>
-                            <b>Contacts: </b>{Object.keys(profile.contacts).map((key) =>
-                            //@ts-ignore
-                            <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-                        )}
-                        </div>
                     </>
                 }
 
