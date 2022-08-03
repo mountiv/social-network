@@ -18,8 +18,8 @@ type UsersResponse = {
 }
 
 export const usersApi = {
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get<UsersResponse>(`users?page=${currentPage}&count=${pageSize}`)
+    getUsers(currentPage: number, pageSize: number, term: string = '') {
+        return instance.get<UsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${term}`)
             .then(response => response.data)
     },
 

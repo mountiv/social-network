@@ -11,7 +11,8 @@ const initialState: UsersState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followInProgress: []
+    followInProgress: [],
+    term: ''
 }
 
 //actions
@@ -22,6 +23,7 @@ const SET_CURRENT_PAGE = "SET-USERS-CURRENT-PAGE"
 const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT"
 export const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING"
 const TOGGLE_FOLLOWING_PROGRESS = "TOGGLE-FOLLOWING-PROGRESS"
+const SEARCH_USER_NAME = "SEARCH-USER-NAME"
 
 export const followAccept = (userId: number) => ({type: FOLLOW, userId} as const)
 export const unfollowAccept = (userId: number) => ({type: UNFOLLOW, userId} as const)
@@ -34,6 +36,7 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
     isFetching,
     userId
 } as const)
+export const searchUser = (userName: string) => ({type: SEARCH_USER_NAME, userName} as const)
 
 //reducer
 export const UsersPageReducer = (state: UsersState = initialState, action: UsersActionsType): UsersState => {
@@ -67,6 +70,10 @@ export const UsersPageReducer = (state: UsersState = initialState, action: Users
                 ...state, followInProgress: action.isFetching
                     ? [...state.followInProgress, action.userId]
                     : state.followInProgress.filter(id => id !== action.userId)
+            };
+        case SEARCH_USER_NAME:
+            return {
+                ...state, term: action.userName
             }
         default:
             return state
@@ -74,11 +81,12 @@ export const UsersPageReducer = (state: UsersState = initialState, action: Users
 }
 
 //ThunkCreator
-export const getUsers = (page: number, pageSize: number) => async (dispatch: Dispatch) => {
+export const getUsers = (page: number, pageSize: number, userName: string) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
+    dispatch(searchUser(userName))
     try {
-        let response = await usersApi.getUsers(page, pageSize)
+        let response = await usersApi.getUsers(page, pageSize, userName)
         dispatch(toggleIsFetching(false))
         dispatch(setUsers(response.items))
         dispatch(setTotalUsersCount(response.totalCount ? response.totalCount : 0))
@@ -138,7 +146,8 @@ export type UsersState = {
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean,
-    followInProgress: Array<number>
+    followInProgress: Array<number>,
+    term: string
 }
 
 export type UsersActionsType =
@@ -149,4 +158,5 @@ export type UsersActionsType =
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleFollowingProgress>
+    | ReturnType<typeof searchUser>
 
