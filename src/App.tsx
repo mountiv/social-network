@@ -1,5 +1,5 @@
 import React, {ComponentType, lazy, Suspense, useEffect} from 'react';
-import './App.css';
+import s from'./App.module.css';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
@@ -39,7 +39,7 @@ const App = (props: AppPropsType) => {
         </div>
     }
     return (
-        <div>
+        <div className={s.appWrapper}>
             <ResponsiveAppBar/>
             <Container fixed>
                 <Suspense fallback={<Preloader/>}>

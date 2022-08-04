@@ -19,23 +19,22 @@ export const Profile = (props: ProfileType) => {
     return (
         <div>
             {props.profile
-                ?
-                <ProfileInfo savePhoto={props.savePhoto}
-                             isOwner={props.isOwner}
-                             profile={props.profile}
-                             status={props.status}
-                             updateStatus={props.updateStatus}
-                             saveSubmit={props.saveSubmit}
-                             setProfileEdit={props.setProfileEdit}
-                             profileEdit={props.profileEdit}
+                &&
+                <>                <ProfileInfo savePhoto={props.savePhoto}
+                                               isOwner={props.isOwner}
+                                               profile={props.profile}
+                                               status={props.status}
+                                               updateStatus={props.updateStatus}
+                                               saveSubmit={props.saveSubmit}
+                                               setProfileEdit={props.setProfileEdit}
+                                               profileEdit={props.profileEdit}
 
                 />
-                :
-                <div className={s.imgWrapper}>
-                    <img alt={'ava'}
-                         src='https://www.kartinki24.ru/uploads/gallery/main/374/kartinki24_ru_autumn_273.jpg'/>
-                </div>}
-            <MyPostsContainer/>
+                    {props.isOwner && <MyPostsContainer/>}
+                </>
+
+            }
+
         </div>
     );
 }

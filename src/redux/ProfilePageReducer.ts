@@ -64,7 +64,7 @@ export const ProfilePageReducer = (state = initialState, action: ProfileActionsT
                 message: action.postText,
                 likeCounts: 0
             };
-            return {...state, postsData: [...state.postsData, newPost]}
+            return {...state, postsData: [newPost, ...state.postsData]}
         case SET_USER_PROFILE:
             return {...state, profile: action.profile};
         case SET_USER_STATUS:

@@ -1,0 +1,12 @@
+.appWrapper {
+    background-image: url("https://pcvector.net/uploads/posts/2020-05/1589649485_triangle-min.jpg");
+    background-size: cover;
+    min-height: 100vh;
+    min-width: 100vh;
+}
+
+.content {
+    grid-area: c;
+    background-color: blanchedalmond;
+}
+

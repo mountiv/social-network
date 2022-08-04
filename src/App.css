@@ -8,7 +8,10 @@
     grid-template-rows: 60px 1fr;
     grid-auto-columns: 2fr 10fr;
     grid-gap: 10px;
+    background-image: url("https://phonoteka.org/uploads/posts/2021-03/thumbs/1616693625_34-p-zhelto-belii-fon-34.jpg")
+
 }
+
 .content {
     grid-area: c;
     background-color: blanchedalmond;
