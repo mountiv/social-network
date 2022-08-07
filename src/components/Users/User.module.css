@@ -1,0 +1,19 @@
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.avaWrapper {
+    margin: 6px;
+}
+
+.button {
+margin: 6px;
+}
+

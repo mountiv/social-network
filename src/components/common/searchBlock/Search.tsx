@@ -12,7 +12,7 @@ export const Search = ({onSearch}: { onSearch: (name: string) => void }) => {
     }, [debouncedSearchTerm])
 
     return (
-        <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+        <Box sx={{display: 'flex', alignItems: 'flex-end', marginBottom: 2}}>
             <SearchIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
             <TextField id="input-with-sx" label="Search user" variant="standard"
                        value={value}

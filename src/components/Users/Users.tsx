@@ -1,8 +1,9 @@
 import React from "react";
+import s from "./Users.module.css"
 import {UsersType} from "../../redux/UsersPageReducer";
 import {User} from "./User";
 import {Search} from "../common/searchBlock/Search";
-import {TablePagination} from "@mui/material";
+import {Pagination} from "@mui/material";
 
 type UsersProps = {
     totalUsersCount: number
@@ -11,7 +12,7 @@ type UsersProps = {
     follow: (id: number) => void
     unfollow: (id: number) => void
     users: Array<UsersType>
-    onPageChanged: (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void
+    onPageChanged: (event: React.ChangeEvent<unknown>, page: number) => void
     followInProgress: number[]
     onSearchUser: (userName: string) => void
 }
@@ -19,20 +20,13 @@ type UsersProps = {
 export const Users = ({totalUsersCount, currentPage, onPageChanged, pageSize, ...props}: UsersProps) => {
 
 
-    return <div>
-        <div>
-            <Search onSearch={props.onSearchUser}/>
-            {/*<Paginator onPageChanged={onPageChanged}*/}
-            {/*           currentPage={currentPage}*/}
-            {/*           pageSize={pageSize}*/}
-            {/*           totalUsersCount={totalUsersCount}/>*/}
-            <TablePagination
-                component="div"
-                count={totalUsersCount}
+    return <div className={s.wrapper}>
+        <div className={s.searching}>
+            <Search onSearch={props.onSearchUser} />
+            <Pagination
+                count={Math.ceil(totalUsersCount / pageSize)}
                 page={currentPage}
-                onPageChange={onPageChanged}
-                rowsPerPage={pageSize}
-                //onRowsPerPageChange={handleChangeRowsPerPage}
+                onChange={onPageChanged}
             />
         </div>
         {props.users.map(u =>

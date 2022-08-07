@@ -1,15 +1,11 @@
 import {connect} from "react-redux";
 import {RootStateType} from "../../redux/reduxStore";
-import {
-    follow, getUsers, searchUser,
-    setCurrentPage,
-    unfollow,
-    UsersState,
-} from "../../redux/UsersPageReducer";
+import {follow, getUsers, searchUser, setCurrentPage, unfollow, UsersState,} from "../../redux/UsersPageReducer";
 import React, {ComponentType} from "react";
 import {Users} from "./Users";
-import {Preloader} from "../common/Preloader/Preloader";
 import {compose} from "redux";
+import {LinearProgress} from "@mui/material";
+import Box from "@mui/material/Box";
 
 
 type mapDispatchToPropsType = {
@@ -27,7 +23,7 @@ export class UsersContainer extends React.Component<UsersPropsType> {
         this.props.getUsers(this.props.currentPage, this.props.pageSize, '')
     }
 
-    onPageChanged = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
+    onPageChanged = (event: React.ChangeEvent<unknown>, page: number) => {
         this.props.setCurrentPage(page)
         this.props.getUsers(page, this.props.pageSize, this.props.term)
     }
@@ -38,7 +34,9 @@ export class UsersContainer extends React.Component<UsersPropsType> {
 
     render() {
         return <>
-            {this.props.isFetching ? <Preloader/> : null}
+            {this.props.isFetching ?   <Box sx={{ width: '100%' }}>
+                <LinearProgress />
+            </Box> : null}
             <Users
                 users={this.props.users}
                 onPageChanged={this.onPageChanged}
