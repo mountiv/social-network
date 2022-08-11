@@ -8,6 +8,7 @@ import {AuthActionsType, authReducer} from "./AuthReducer";
 import {reducer as formReducer} from 'redux-form'
 import {AppActionsType, appReducer} from "./AppReducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
+import {chatReducer} from "./ChatReducer";
 
 export type ActionsType = ProfileActionsType
     | AppActionsType
@@ -23,7 +24,8 @@ let rootReducer = combineReducers({
     usersPage: UsersPageReducer,
     auth: authReducer,
     form: formReducer,
-    app: appReducer
+    app: appReducer,
+    chat: chatReducer
 })
 
 //@ts-ignore

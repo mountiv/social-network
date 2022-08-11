@@ -1,15 +1,11 @@
 import {Message} from "./Message";
-import {useEffect, useState} from "react";
-import {ChatMessageType} from "./ChatPage";
+import {useAppSelector} from "../../redux/reduxStore";
+import {ChatMessageType} from "../../api/chat-api";
 
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
 
 export const Messages = () => {
-    const [messages, setMessages] = useState<ChatMessageType[]>([])
-    useEffect(() => {
-        ws.addEventListener('message', (e) =>
-                setMessages(JSON.parse(e.data)))
-    }, [])
+    const messages = useAppSelector<ChatMessageType[]>(state => state.chat.messages)
+
     return <div>
         {messages.map((message, key) => <Message message={message} key={key}/>)}
     </div>
