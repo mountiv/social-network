@@ -1,5 +1,5 @@
 import React, {ComponentType, lazy, Suspense, useEffect} from 'react';
-import s from'./App.module.css';
+import s from './App.module.css';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
@@ -17,7 +17,7 @@ import {CircularProgress} from "@mui/material";
 import {ErrorSnackbar} from "./utils/ErrorSnackbar";
 
 
-const Dialogs = lazy(() => import( "./components/Dialogs/DialogsContainer"));
+const ChatPage = lazy(() => import( "./components/Chat/ChatPage"));
 const UsersContainer = lazy(() => import( "./components/Users/UsersContainer"));
 const ProfileContainer = lazy(() => import( "./components/Profile/ProfileContainer"));
 
@@ -47,12 +47,12 @@ const App = (props: AppPropsType) => {
                         <Route path='/profile/:userId' element={<ProfileContainer/>}/>
                         <Route path='/profile' element={<ProfileContainer/>}/>
                         <Route path='/' element={<Navigate to={'/profile'}/>}/>
-                        <Route path='/dialogs' element={<Dialogs/>}/>
                         <Route path='/users' element={<UsersContainer/>}/>
                         <Route path='/news' element={<News/>}/>
                         <Route path='/music' element={<Music/>}/>
                         <Route path='/settings' element={<Settings/>}/>
                         <Route path='/login' element={<Login/>}/>
+                        <Route path='/chat' element={<ChatPage/>}/>
                     </Routes>
                 </Suspense>
                 <ErrorSnackbar/>

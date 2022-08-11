@@ -69,6 +69,7 @@ export const ProfileData = ({
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 <Box sx={{margin: 1}}>
                                     {Object.keys(profile.contacts).map((key) =>
+                                        // profile.contacts && profile.contacts[key] &&
                                         //@ts-ignore
                                         <Contact key={key} contactTitle={profile.contacts[key] && key} contactValue={profile.contacts[key] && profile.contacts[key]}/>
                                     )}

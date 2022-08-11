@@ -9,7 +9,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {NavLink} from "react-router-dom";
 import {Header} from "../Header/Header";
 
-const pages = [<NavLink to="/users">Users</NavLink>, <NavLink to="/dialogs">Dialogs</NavLink>];
+const pages = [<NavLink to="/users">Users</NavLink>, <NavLink to="/chat">Chat</NavLink>];
 
 const ResponsiveAppBar = () => {
 

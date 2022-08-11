@@ -35,7 +35,6 @@ export const Header = () => {
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                     <Avatar alt="Avatar" src={(isAuth && avatar) ? avatar :"/static/images/avatar/2.jpg"}/>
-
                 </IconButton>
             </Tooltip>
             <Menu
@@ -47,7 +46,7 @@ export const Header = () => {
                     horizontal: 'right',
                 }}
                 keepMounted
-                transformOrigin={{
+                 transformOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
                 }}
