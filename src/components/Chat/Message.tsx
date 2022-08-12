@@ -12,7 +12,9 @@ export const Message = ({message}: { message: ChatMessageType }) => {
                      className={s.avatar}/>
             </Link>
         </div>
-        <b>{message.userName}</b>
-        <a>{message.message}</a>
+        <div>
+            <b>{message.userName}</b>
+            <a>{message.message}</a>
+        </div>
     </div>
 }

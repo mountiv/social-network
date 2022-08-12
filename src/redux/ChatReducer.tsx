@@ -3,18 +3,23 @@ import {Dispatch} from "redux";
 
 //initial state
 const initialState = {
-    messages: [] as ChatMessageType[]
+    messages: [] as ChatMessageType[],
+    status: 'pending' as StatusType
 }
 
 //type
-export type ActionsType = ReturnType<typeof actions.messagesReceived>
+type StatusType = 'pending' | 'ready'
+export type ActionsType = ReturnType<typeof messagesReceived> | ReturnType<typeof statusChanged>
 
 //actions
-export const actions = {
-    messagesReceived: (messages: ChatMessageType[]) => ({
-        type: 'chat/MESSAGES-RECEIVED', payload: {messages}
-    })
-}
+const messagesReceived = (messages: ChatMessageType[]) => ({
+    type: 'chat/MESSAGES-RECEIVED', payload: {messages}
+} as const)
+
+const statusChanged = (status: StatusType) => ({
+    type: 'chat/STATUS-CHANGED', payload: {status}
+} as const)
+
 
 //reducer
 export const chatReducer = (state = initialState, action: ActionsType): typeof initialState => {
@@ -24,6 +29,11 @@ export const chatReducer = (state = initialState, action: ActionsType): typeof i
                 ...state,
                 messages: [...state.messages, ...action.payload.messages]
             };
+        case 'chat/STATUS-CHANGED':
+            return {
+                ...state,
+                status: action.payload.status
+            }
         default:
             return state
     }
@@ -33,7 +43,7 @@ export const chatReducer = (state = initialState, action: ActionsType): typeof i
 let _newMessageHandler: ((messages: ChatMessageType[]) => void) | null = null
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
     if (_newMessageHandler === null) {
-        _newMessageHandler = (messages) => dispatch(actions.messagesReceived(messages))
+        _newMessageHandler = (messages) => dispatch(messagesReceived(messages))
     }
     return _newMessageHandler
 };

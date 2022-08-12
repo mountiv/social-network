@@ -3,10 +3,14 @@ let ws: WebSocket | null = null
 const closeHandler = () => {
     setTimeout(createChanel, 3000)
 }
+const cleanUp = () => {
+    ws?.removeEventListener('close', closeHandler)
+    ws?.removeEventListener('message', messageHandler)
+}
 
 const createChanel = () => {
-    ws?.removeEventListener('close', closeHandler)
     ws?.close()
+    cleanUp()
     ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
     ws?.addEventListener('close', closeHandler)
     ws?.addEventListener('message', messageHandler)
@@ -25,8 +29,7 @@ export const chatApi = {
     },
     stop() {
         subscribers = []
-        ws?.removeEventListener('close', closeHandler)
-        ws?.removeEventListener('message', messageHandler)
+        cleanUp()
         ws?.close()
     },
     subscribe(callback: SubscriberType) {
