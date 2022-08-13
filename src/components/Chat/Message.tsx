@@ -1,9 +1,9 @@
 import s from "../Users/User.module.css";
 import {Link} from "react-router-dom";
 import React from "react";
-import {ChatMessageType} from "../../api/chat-api";
+import {ChatMessageAPIType} from "../../api/chat-api";
 
-export const Message = ({message}: { message: ChatMessageType }) => {
+export const Message = React.memo(({message}: { message: ChatMessageAPIType }) => {
 
     return <div>
         <div className={s.avaWrapper}>
@@ -17,4 +17,4 @@ export const Message = ({message}: { message: ChatMessageType }) => {
             <a>{message.message}</a>
         </div>
     </div>
-}
+})

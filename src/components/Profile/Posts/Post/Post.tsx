@@ -1,6 +1,5 @@
 import React from "react";
 import s from './Post.module.css'
-import {LikeOutlined} from '@ant-design/icons';
 
 type PostType = {
     message: string;
@@ -15,7 +14,7 @@ export const Post = (props: PostType) => {
                 {props.message}
             </div>
             <div>
-                <span><LikeOutlined/> {props.likeCount}</span>
+                <span> {props.likeCount}</span>
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
-import {chatApi, ChatMessageType} from "../api/chat-api";
+import {chatApi, ChatMessageAPIType, StatusType} from "../api/chat-api";
 import {Dispatch} from "redux";
+import {v1} from "uuid";
 
 //initial state
 const initialState = {
@@ -7,12 +8,19 @@ const initialState = {
     status: 'pending' as StatusType
 }
 
+export type ChatMessageType = {
+    id: string
+    message: string
+    photo: string
+    userId: number
+    userName: string
+}
+
 //type
-type StatusType = 'pending' | 'ready'
 export type ActionsType = ReturnType<typeof messagesReceived> | ReturnType<typeof statusChanged>
 
 //actions
-const messagesReceived = (messages: ChatMessageType[]) => ({
+const messagesReceived = (messages: ChatMessageAPIType[]) => ({
     type: 'chat/MESSAGES-RECEIVED', payload: {messages}
 } as const)
 
@@ -27,7 +35,10 @@ export const chatReducer = (state = initialState, action: ActionsType): typeof i
         case "chat/MESSAGES-RECEIVED":
             return {
                 ...state,
-                messages: [...state.messages, ...action.payload.messages]
+                messages: [...state.messages, ...action.payload.messages].map(m => ({
+                    ...m,
+                    id: v1()
+                })).filter((m, index, array) => index >= array.length - 100)
             };
         case 'chat/STATUS-CHANGED':
             return {
@@ -40,7 +51,7 @@ export const chatReducer = (state = initialState, action: ActionsType): typeof i
 }
 
 //thunk
-let _newMessageHandler: ((messages: ChatMessageType[]) => void) | null = null
+let _newMessageHandler: ((messages: ChatMessageAPIType[]) => void) | null = null
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
     if (_newMessageHandler === null) {
         _newMessageHandler = (messages) => dispatch(messagesReceived(messages))
@@ -48,13 +59,23 @@ const newMessageHandlerCreator = (dispatch: Dispatch) => {
     return _newMessageHandler
 };
 
+let _statusChangedHandler: ((status: StatusType) => void) | null = null
+const statusChangedHandlerCreator = (dispatch: Dispatch) => {
+    if (_statusChangedHandler === null) {
+        _statusChangedHandler = (status) => dispatch(statusChanged(status))
+    }
+    return _statusChangedHandler
+};
+
 export const startMessagesListening = () => async (dispatch: any) => {
     chatApi.start()
-    chatApi.subscribe(newMessageHandlerCreator(dispatch))
+    chatApi.subscribe("messages-received", newMessageHandlerCreator(dispatch))
+    chatApi.subscribe("status-changed", statusChangedHandlerCreator(dispatch))
 }
 
 export const stopMessagesListening = () => async (dispatch: any) => {
-    chatApi.unsubscribe(newMessageHandlerCreator(dispatch))
+    chatApi.unsubscribe("messages-received", newMessageHandlerCreator(dispatch))
+    chatApi.unsubscribe("status-changed", statusChangedHandlerCreator(dispatch))
     chatApi.stop()
 }
 

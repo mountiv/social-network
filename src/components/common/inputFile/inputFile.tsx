@@ -1,5 +1,3 @@
-import {UploadOutlined} from '@ant-design/icons';
-import {Button, message, Upload} from 'antd';
 import React from 'react';
 
 const props = {
@@ -14,20 +12,20 @@ const props = {
             console.log(info.file, info.fileList);
         }
 
-        if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
+        // if (info.file.status === 'done') {
+        //     message.success(`${info.file.name} file uploaded successfully`);
+        // } else if (info.file.status === 'error') {
+        //     message.error(`${info.file.name} file upload failed.`);
+        // }
     },
 };
 
 export const InputFile = () => {
-    return (
-        <Upload {...props} >
-            <Button icon={< UploadOutlined/>}>
-                Add Photo
-            </Button>
-        </Upload>
+    return (<></>
+        // <Upload {...props} >
+        //     <Button icon={< UploadOutlined/>}>
+        //         Add Photo
+        //     </Button>
+        // </Upload>
     )
 }
