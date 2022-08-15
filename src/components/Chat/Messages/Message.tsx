@@ -1,7 +1,7 @@
-import s from "../Users/User.module.css";
+import s from "../../Users/User.module.css";
 import {Link} from "react-router-dom";
 import React from "react";
-import {ChatMessageAPIType} from "../../api/chat-api";
+import {ChatMessageAPIType} from "../../../api/chat-api";
 
 export const Message = React.memo(({message}: { message: ChatMessageAPIType }) => {
 

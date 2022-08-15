@@ -80,5 +80,5 @@ export const stopMessagesListening = () => async (dispatch: any) => {
 }
 
 export const sendMessage = (message: string) => async (dispatch: any) => {
-    chatApi.sendMessage(message)
+    await chatApi.sendMessage(message)
 }
