@@ -1,7 +1,7 @@
-import {Message} from "./Message";
 import {useAppSelector} from "../../../redux/reduxStore";
 import {ChatMessageAPIType} from "../../../api/chat-api";
 import React, {useEffect, useRef, useState} from "react";
+import { Message } from "./Message/Message";
 
 
 export const Messages = () => {

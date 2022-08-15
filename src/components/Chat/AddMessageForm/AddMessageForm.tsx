@@ -3,7 +3,7 @@ import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {useDispatch} from "react-redux";
 import {sendMessage} from "../../../redux/ChatReducer";
 import {useAppSelector} from "../../../redux/reduxStore";
-import s from "./AddMessage.module.css"
+import s from "./AddMessageForm.module.css"
 
 
 export const AddMessageForm = () => {
@@ -28,6 +28,6 @@ export const AddMessageForm = () => {
         <TextField id="standard-basic" label="Enter message" variant="standard"  value={message}
                   onKeyPress={onKeyEventHandler}
                   onChange={(e) => setMessage(e.currentTarget.value)}/>
-        <Button disabled={status !== 'ready'} onClick={sendMessageHandler}>Send</Button>
+        <Button variant="contained" disabled={status !== 'ready'} onClick={sendMessageHandler}>Send</Button>
     </div>
 }

@@ -1,20 +1,20 @@
-import s from "../../Users/User.module.css";
 import {Link} from "react-router-dom";
 import React from "react";
-import {ChatMessageAPIType} from "../../../api/chat-api";
+import {ChatMessageAPIType} from "../../../../api/chat-api";
+import s from "./Message.module.css"
 
 export const Message = React.memo(({message}: { message: ChatMessageAPIType }) => {
 
-    return <div>
-        <div className={s.avaWrapper}>
+    return <div className={s.message}>
+        <div >
             <Link to={'/profile/' + message.userId}>
                 <img alt={'ava'} src={message.photo}
-                     className={s.avatar}/>
+                     className={s.ava}/>
             </Link>
         </div>
-        <div>
-            <b>{message.userName}</b>
-            <a>{message.message}</a>
+        <div className={s.text}>
+            <div>{message.userName}</div>
+            <p>{message.message}</p>
         </div>
     </div>
 })
