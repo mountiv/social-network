@@ -68,11 +68,15 @@ export const ProfileData = ({
                         <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 <Box sx={{margin: 1}}>
-                                    {Object.keys(profile.contacts).map((key) =>
-                                        // profile.contacts && profile.contacts[key] &&
-                                        //@ts-ignore
-                                        <Contact key={key} contactTitle={profile.contacts[key] && key} contactValue={profile.contacts[key] && profile.contacts[key]}/>
-                                    )}
+                                    <Table>
+                                        <TableBody>
+                                            {(Object.keys(profile.contacts) as (keyof typeof profile.contacts)[]).map((key) =>
+                                                profile.contacts[key] &&
+                                                <Contact key={key} contactTitle={key}
+                                                         contactValue={profile.contacts[key]}/>
+                                            )}
+                                        </TableBody>
+                                    </Table>
                                 </Box>
                             </Collapse>
                         </TableCell>

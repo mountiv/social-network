@@ -123,7 +123,7 @@ export const savePhoto = (photo: string) => async (dispatch: Dispatch) => {
     try {
         let response = await profileApi.updatePhoto(photo)
         if (response.data.resultCode === 0) {
-            dispatch(setNewPhoto({large: photo, small: ''}))
+            dispatch(setNewPhoto({large: response.data.data.photos.large, small: ''}))
         } else {
             handleServerAppError(response.data, dispatch)
         }

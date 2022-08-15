@@ -3,7 +3,7 @@ import s from "./Users.module.css"
 import {UsersType} from "../../redux/UsersPageReducer";
 import {User} from "./User";
 import {Search} from "../common/searchBlock/Search";
-import {Pagination} from "@mui/material";
+import {Box, Grid, Pagination} from "@mui/material";
 
 type UsersProps = {
     totalUsersCount: number
@@ -22,20 +22,24 @@ export const Users = ({totalUsersCount, currentPage, onPageChanged, pageSize, ..
 
     return <div className={s.wrapper}>
         <div className={s.searching}>
-            <Search onSearch={props.onSearchUser} />
+            <Search onSearch={props.onSearchUser}/>
             <Pagination
                 count={Math.ceil(totalUsersCount / pageSize)}
                 page={currentPage}
                 onChange={onPageChanged}
             />
         </div>
-        {props.users.map(u =>
-            <User key={u.id}
-                  user={u}
-                  follow={props.follow}
-                  unfollow={props.unfollow}
-                  followInProgress={props.followInProgress}
-            />)}
-
+        <Grid container spacing={4}>
+            {props.users.map(u =>
+                <Grid item key={u.id}>
+                    <User key={u.id}
+                          user={u}
+                          follow={props.follow}
+                          unfollow={props.unfollow}
+                          followInProgress={props.followInProgress}
+                    />
+                </Grid>
+            )}
+        </Grid>
     </div>
 }

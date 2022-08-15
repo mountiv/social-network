@@ -7,7 +7,7 @@ import {handleServerAppError, handleServerNetworkError} from "../utils/error-uti
 //initial state
 const initialState: UsersState = {
     users: [],
-    pageSize: 5,
+    pageSize: 9,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
