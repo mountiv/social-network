@@ -25,9 +25,11 @@ export const AddMessageForm = () => {
     }
 
     return <div className={s.containerForm}>
-        <TextField id="standard-basic" label="Enter message" variant="standard"  value={message}
-                  onKeyPress={onKeyEventHandler}
-                  onChange={(e) => setMessage(e.currentTarget.value)}/>
-        <Button variant="contained" disabled={status !== 'ready'} onClick={sendMessageHandler}>Send</Button>
+        <TextField placeholder={'Enter your message'}
+                   style={{maxWidth: 400}}
+                   value={message}
+                   onKeyPress={onKeyEventHandler}
+                   onChange={(e) => setMessage(e.currentTarget.value)}/>
+        <Button className={s.button} variant="contained" disabled={status !== 'ready'} onClick={sendMessageHandler}>Send</Button>
     </div>
 }

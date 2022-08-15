@@ -4,3 +4,7 @@
     align-items: flex-end;
     justify-content: flex-start;
 }
+
+.button {
+    margin-left: 30px;
+}

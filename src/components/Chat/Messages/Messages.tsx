@@ -24,7 +24,7 @@ export const Messages = () => {
         }
     }, [messages])
 
-    return <div style={{overflowY: 'auto', height: '400px'}} onScroll={scrollHandler}>
+    return <div style={{overflowY: 'auto', height: '500px'}} onScroll={scrollHandler}>
         {messages.map((message, key) => <Message message={message} key={key}/>)}
         <div ref={messagesRef}></div>
     </div>

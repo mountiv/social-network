@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import React, {ChangeEvent, useEffect, useState} from "react";
 import s from './ProfileStatus.module.css'
 
@@ -27,15 +28,14 @@ export const ProfileStatus = (props: ProfileStatusType) => {
 
     return (
         <div>
-
             {!editMode
                 ?
                 <div>
-                    <span onDoubleClick={() => setEditMode(true)}>{status || '---------'}</span>
+                    <span onDoubleClick={() => setEditMode(true)}>{status || 'Enter your status'}</span>
                 </div>
                 :
                 <div>
-                    <input onChange={onStatusChange}
+                    <TextField variant="standard" placeholder={'Enter status'} onChange={onStatusChange}
                            autoFocus onBlur={deactivateEditMode} value={status}/>
                 </div>}
         </div>

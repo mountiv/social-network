@@ -12,9 +12,8 @@ import {Header} from "../Header/Header";
 const pages = [<NavLink to="/users">Users</NavLink>, <NavLink to="/chat">Chat</NavLink>];
 
 const ResponsiveAppBar = () => {
-
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{marginBottom: 3}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
