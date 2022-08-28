@@ -1,8 +1,8 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/AuthReducer";
-import {RootStateType} from "../../redux/reduxStore";
-import {Navigate} from "react-router-dom";
+import {RootStateType, useAppSelector} from "../../redux/reduxStore";
+import {Navigate, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import {Button, Checkbox, FormControlLabel, FormGroup, TextField} from "@mui/material";
 
@@ -17,8 +17,9 @@ export type FormDataType = {
 
 export const Login = () => {
     const dispatch = useDispatch()
-    const isAuth = useSelector<RootStateType, boolean>(state => state.auth.isAuth)
-    const captcha = useSelector<RootStateType, string | null>(state => state.auth.captcha)
+    const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+    const captcha = useAppSelector<string | null>(state => state.auth.captcha)
+    const navigate = useNavigate()
 
 
     const formik = useFormik({
@@ -48,7 +49,7 @@ export const Login = () => {
     })
 
 
-    if (isAuth) return <Navigate to={'/profile'} replace={true}/>
+    if (isAuth) navigate(-1)
     return (
         <form onSubmit={formik.handleSubmit}>
             <FormGroup sx={{maxWidth: 300}}>
