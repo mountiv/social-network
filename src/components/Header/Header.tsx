@@ -57,7 +57,7 @@ export const Header = () => {
                     <Typography textAlign="center"><Link to="/profile">Profile</Link></Typography>
                 </MenuItem>
                 <MenuItem onClick={onLogoutClick}>
-                    <Typography textAlign="center">Logout</Typography>
+                    <Typography textAlign="center"><Link to="/login">Logout</Link></Typography>
                 </MenuItem>
             </Menu>
         </Box>

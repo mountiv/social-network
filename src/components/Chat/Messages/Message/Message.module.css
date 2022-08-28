@@ -13,7 +13,7 @@
 .text {
     background-color: #9c27b0;
     border-radius: 6px;
-    color: white;
+    color: #ffffff;
     padding: 8px 50px 8px 12px;
     min-width: 200px;
     position: relative;
@@ -36,8 +36,8 @@
 }
 
 .name {
-    color: lightskyblue;
-    margin-bottom: 5px;
+    color: #e6a7e7;
+    margin-bottom: 10px;
 }
 
 .text p {

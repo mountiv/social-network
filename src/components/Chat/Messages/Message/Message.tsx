@@ -13,7 +13,7 @@ export const Message = React.memo(({message}: { message: ChatMessageAPIType }) =
             </Link>
         </div>
         <div className={s.text}>
-            <div>{message.userName}</div>
+            <div className={s.name}><b>{message.userName}</b></div>
             <p>{message.message}</p>
         </div>
     </div>

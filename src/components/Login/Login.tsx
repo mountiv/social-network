@@ -51,7 +51,7 @@ export const Login = () => {
     if (isAuth) return <Navigate to={'/profile'} replace={true}/>
     return (
         <form onSubmit={formik.handleSubmit}>
-            <FormGroup>
+            <FormGroup sx={{maxWidth: 300}}>
                 <TextField
                     label="Email"
                     margin="normal"
