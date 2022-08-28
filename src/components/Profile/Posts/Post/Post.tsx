@@ -1,4 +1,5 @@
 import React from "react";
+import { useAppSelector } from "../../../../redux/reduxStore";
 import s from './Post.module.css'
 
 type PostType = {
@@ -7,10 +8,12 @@ type PostType = {
 }
 
 export const Post = (props: PostType) => {
+    const avatar = useAppSelector(state => state.profilePage.profile?.photos?.large)
+
     return (
         <div className={s.item}>
             <div className={s.photoMessage}>
-                <img src='https://whatsism.com/uploads/posts/2018-07/1530546770_rmk_vdjbx10.jpg' alt='ava'/>
+                <img src={avatar || 'https://www.meme-arsenal.com/memes/01fc26df82c8e314e3893ea3c15ad60a.jpg'} alt='ava'/>
                 {props.message}
             </div>
             <div>

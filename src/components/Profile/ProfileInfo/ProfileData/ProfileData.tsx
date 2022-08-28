@@ -17,7 +17,7 @@ export const ProfileData = ({
 
     return <>
         <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} aria-label="simple table">
+            <Table sx={{maxWidth: 650}} aria-label="simple table">
                 <TableBody>
                     <TableRow
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
