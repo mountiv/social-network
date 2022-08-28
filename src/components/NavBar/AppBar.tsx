@@ -8,8 +8,9 @@ import Button from '@mui/material/Button';
 import AdbIcon from '@mui/icons-material/Adb';
 import {NavLink} from "react-router-dom";
 import {Header} from "../Header/Header";
+import s from "./NavBar.module.css"
 
-const pages = [<NavLink to="/users">Users</NavLink>, <NavLink to="/chat">Chat</NavLink>];
+const pages = [<NavLink className={s.link} to="/users">Users</NavLink>, <NavLink className={s.link}  to="/chat">Chat</NavLink>];
 
 const ResponsiveAppBar = () => {
     return (
@@ -35,7 +36,7 @@ const ResponsiveAppBar = () => {
                         Social Network
                     </Typography>
 
-                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'inherit', md: 'flex'}}}>
                         {pages.map((page, key) => (
                             <Button
                                 key={key}

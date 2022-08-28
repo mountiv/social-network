@@ -85,7 +85,7 @@ export const ProfileInfo = (props: ProfileType) => {
                 {!props.profileEdit && <div>{props.isOwner && <Button variant="contained"
                                                                       onClick={() => props.setProfileEdit(!props.profileEdit)}>{'Edit Profile'}</Button>}</div>}
             </div>
-            <div>
+            <div style={{width: '100%'}}>
                 <b>{profile.fullName}</b>
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
                 <br/>

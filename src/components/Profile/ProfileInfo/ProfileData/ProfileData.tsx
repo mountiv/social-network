@@ -16,8 +16,8 @@ export const ProfileData = ({
     const [open, setOpen] = useState(false);
 
     return <>
-        <TableContainer component={Paper}>
-            <Table sx={{maxWidth: 650}} aria-label="simple table">
+        <TableContainer sx={{width:'100%'}} component={Paper}>
+            <Table sx={{maxWidth: 650, width:"100%"}} aria-label="simple table">
                 <TableBody>
                     <TableRow
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
