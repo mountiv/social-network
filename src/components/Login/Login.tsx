@@ -1,17 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/AuthReducer";
 import {RootStateType, useAppSelector} from "../../redux/reduxStore";
 import {Navigate, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
-import {Button, Checkbox, FormControlLabel, FormGroup, TextField} from "@mui/material";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from "@mui/material";
 
 
 export type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
-    captcha?: string
+    captcha?: string | null
 }
 
 
@@ -26,7 +26,8 @@ export const Login = () => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
+            captcha: null
         },
         validate: (values) => {
             const errors = {} as FormDataType;
@@ -45,43 +46,76 @@ export const Login = () => {
         onSubmit: async (values, formikHelpers) => {
             await dispatch(login(values))
             formik.resetForm();
+            console.log(values)
         },
     })
 
+    useEffect(() => {
+        if (isAuth) navigate(-1)
+    }, [isAuth])
 
-    if (isAuth) navigate(-1)
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <FormGroup sx={{maxWidth: 300}}>
-                <TextField
-                    label="Email"
-                    margin="normal"
-                    {...formik.getFieldProps('email')}
-                />
+        <Grid container justifyContent={'center'}>
+            <Grid item justifyContent={'center'}>
+                <FormControl>
+                    <FormLabel>
+                        <p>To log in get registered
+                            <a href={'https://social-network.samuraijs.com/'}
+                               target={'_blank'}> here
+                            </a>
+                        </p>
+                        <p>or use common test account credentials:</p>
+                        <p>Email: free@samuraijs.com</p>
+                        <p>Password: free</p>
+                    </FormLabel>
 
-                {formik.touched.email && formik.errors.email &&
-                    <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormGroup sx={{maxWidth: 300}}>
+                            <TextField
+                                label="Email"
+                                margin="normal"
+                                {...formik.getFieldProps('email')}
+                            />
 
-                <TextField
-                    type="password"
-                    label="Password"
-                    margin="normal"
-                    {...formik.getFieldProps('password')}
+                            {formik.touched.email && formik.errors.email &&
+                                <div style={{color: 'red'}}>{formik.errors.email}</div>}
 
-                />
+                            <TextField
+                                type="password"
+                                label="Password"
+                                margin="normal"
+                                {...formik.getFieldProps('password')}
 
-                {formik.touched.password && formik.errors.password &&
-                    <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                            />
 
-                <FormControlLabel
-                    label={'Remember me'}
-                    control={<Checkbox checked={formik.values.rememberMe}
-                                       {...formik.getFieldProps('rememberMe')}
-                    />}
-                />
-                <Button type={'submit'} variant={'contained'} color={'primary'}>
-                    Login
-                </Button>
-            </FormGroup>
-        </form>)
+                            {formik.touched.password && formik.errors.password &&
+                                <div style={{color: 'red'}}>{formik.errors.password}</div>}
+
+                            {captcha &&
+                                <>
+                                    <img src={captcha}/>
+                                    <TextField
+                                        type="captcha"
+                                        label="captcha"
+                                        margin="normal"
+                                        {...formik.getFieldProps('captcha')}
+
+                                    />
+                                </>
+                            }
+
+                            <FormControlLabel
+                                label={'Remember me'}
+                                control={<Checkbox checked={formik.values.rememberMe}
+                                                   {...formik.getFieldProps('rememberMe')}
+                                />}
+                            />
+                            <Button type={'submit'} variant={'contained'} color={'primary'}>
+                                Login
+                            </Button>
+                        </FormGroup>
+                    </form>
+                </FormControl>
+            </Grid>
+        </Grid>)
 }
