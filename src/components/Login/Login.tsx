@@ -46,7 +46,6 @@ export const Login = () => {
         onSubmit: async (values, formikHelpers) => {
             await dispatch(login(values))
             formik.resetForm();
-            console.log(values)
         },
     })
 

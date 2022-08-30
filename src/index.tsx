@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {Provider} from "react-redux";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {lime, purple} from '@mui/material/colors';
 
@@ -19,13 +19,13 @@ const theme = createTheme({
 
 export const renderTree = () => {
     ReactDOM.render(
-        <BrowserRouter>
+        <HashRouter>
             <ThemeProvider theme={theme}>
                 <Provider store={store}>
                     <App/>
                 </Provider>
             </ThemeProvider>
-        </BrowserRouter>,
+        </HashRouter>,
         document.getElementById('root')
     );
 }

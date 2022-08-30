@@ -8,7 +8,9 @@ import {ProfileDataType} from "../components/Profile/ProfileInfo/ProfileData/Pro
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
-    headers: {'API-KEY': 'ad9832ce-880a-4ae9-b086-5b56273b3ae8'}
+    headers: {
+        'API-KEY': 'ad9832ce-880a-4ae9-b086-5b56273b3ae8'
+    },
 })
 
 type UsersResponse = {
