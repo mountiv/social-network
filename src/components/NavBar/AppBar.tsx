@@ -22,7 +22,7 @@ const ResponsiveAppBar = () => {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
+                        href="/profile"
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},

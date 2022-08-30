@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import {Link} from "react-router-dom";
 import Menu from "@mui/material/Menu";
+import userPhoto from "../../../assets/images/userPhoto.png";
 
 
 export const ProfileInfo = (props: ProfileType) => {
@@ -48,7 +49,7 @@ export const ProfileInfo = (props: ProfileType) => {
                 {profile.photos.large &&
                     <Tooltip title="Change avatar">
                         <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                            <img className={s.ava} alt={'Photo'} src={profile.photos.large}/>
+                            <img className={s.ava} alt={'Photo'} src={profile.photos.large !== null ? profile.photos.large : userPhoto}/>
                         </IconButton>
                     </Tooltip>
                 }
