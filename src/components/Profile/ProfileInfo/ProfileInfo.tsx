@@ -46,13 +46,12 @@ export const ProfileInfo = (props: ProfileType) => {
     return (
         <div className={s.wrapper}>
             <div className={s.avaBlock}>
-                {profile.photos.large &&
-                    <Tooltip title="Change avatar">
-                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                            <img className={s.ava} alt={'Photo'} src={profile.photos.large !== null ? profile.photos.large : userPhoto}/>
-                        </IconButton>
-                    </Tooltip>
-                }
+                <Tooltip title="Change avatar">
+                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                        <img className={s.ava} alt={'Photo'}
+                             src={profile.photos.large !== null ? profile.photos.large : userPhoto}/>
+                    </IconButton>
+                </Tooltip>
 
                 {props.isOwner &&
                     <Menu
