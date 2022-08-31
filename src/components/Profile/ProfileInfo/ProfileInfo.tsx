@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import {Link} from "react-router-dom";
 import Menu from "@mui/material/Menu";
-import userPhoto from "../../../assets/images/userPhoto.png";
+import noAva from "../../../../assets/images/naAvatar.png"
 
 
 export const ProfileInfo = (props: ProfileType) => {
@@ -46,12 +46,17 @@ export const ProfileInfo = (props: ProfileType) => {
     return (
         <div className={s.wrapper}>
             <div className={s.avaBlock}>
-                <Tooltip title="Change avatar">
-                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                        <img className={s.ava} alt={'Photo'}
-                             src={profile.photos.large !== null ? profile.photos.large : userPhoto}/>
-                    </IconButton>
-                </Tooltip>
+                {props.isOwner
+                    ? <Tooltip title="Change avatar">
+                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                            <img className={s.ava} alt={'Photo'}
+                                 src={profile.photos.large !== null ? profile.photos.large : noAva}/>
+                        </IconButton>
+                    </Tooltip>
+
+                    : <img className={s.ava} alt={'Photo'}
+                           src={profile.photos.large !== null ? profile.photos.large : noAva}/>}
+
 
                 {props.isOwner &&
                     <Menu

@@ -2,13 +2,15 @@ import {Link} from "react-router-dom";
 import React from "react";
 import {ChatMessageAPIType} from "../../../../api/chat-api";
 import s from "./Message.module.css"
+import noAva from "../../../../assets/images/naAvatar.png"
+
 
 export const Message = React.memo(({message}: { message: ChatMessageAPIType }) => {
 
     return <div className={s.message}>
         <div >
             <Link to={'/profile/' + message.userId}>
-                <img alt={'ava'} src={message.photo}
+                <img alt={'ava'} src={message.photo || noAva}
                      className={s.ava}/>
             </Link>
         </div>

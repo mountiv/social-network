@@ -10,6 +10,8 @@ import Box from "@mui/material/Box";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../redux/reduxStore";
 import {logout} from "../../redux/AuthReducer";
+import noAva from "../../../../assets/images/naAvatar.png"
+
 
 export const Header = () => {
     const isAuth = useSelector<RootStateType, boolean>(state => state.auth.isAuth)
@@ -34,7 +36,7 @@ export const Header = () => {
         <Box sx={{flexGrow: 0}}>
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                    <Avatar alt="Avatar" src={(isAuth && avatar) ? avatar :"/static/images/avatar/2.jpg"}/>
+                    <Avatar alt="Avatar" src={avatar || noAva}/>
                 </IconButton>
             </Tooltip>
             <Menu
