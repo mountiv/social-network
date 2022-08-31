@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import {Link} from "react-router-dom";
 import Menu from "@mui/material/Menu";
-import noAva from "../../../../assets/images/naAvatar.png"
+import noAva from "../../../assets/images/naAvatar.png"
 
 
 export const ProfileInfo = (props: ProfileType) => {

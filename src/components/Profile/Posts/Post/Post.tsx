@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../../../../redux/reduxStore";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import s from './Post.module.css'
 import noAva from "../../../../assets/images/naAvatar.png"
 
@@ -18,6 +19,7 @@ export const Post = (props: PostType) => {
                 {props.message}
             </div>
             <div>
+                <FavoriteIcon/>
                 <span> {props.likeCount}</span>
             </div>
         </div>

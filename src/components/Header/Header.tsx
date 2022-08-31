@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../redux/reduxStore";
 import {logout} from "../../redux/AuthReducer";
-import noAva from "../../../../assets/images/naAvatar.png"
+import noAva from "../../assets/images/naAvatar.png"
 
 
 export const Header = () => {
