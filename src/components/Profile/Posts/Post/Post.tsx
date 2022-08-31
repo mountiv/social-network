@@ -18,7 +18,7 @@ export const Post = (props: PostType) => {
                 <img src={avatar || noAva} alt='ava'/>
                 {props.message}
             </div>
-            <div>
+            <div className={s.likes}>
                 <FavoriteIcon/>
                 <span> {props.likeCount}</span>
             </div>

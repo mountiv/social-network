@@ -15,3 +15,9 @@
     align-items: center;
 }
 
+.likes {
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+}
+
